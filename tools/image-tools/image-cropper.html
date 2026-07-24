@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Image Cropper - Crop Photos to Perfect Size | text2tool</title>
+    <meta name="description" content="Free online image cropper to trim photos for social media or websites. Fast, secure, and 100% client-side processing without losing quality.">
+    <link rel="stylesheet" href="../../style.css">
+    <link rel="stylesheet" href="../tool-style.css">
+    <script src="../../js/favicon.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css">
+    <style>
+        :root { --brand-blue: #3b82f6; }
+        .shining-title { font-size: clamp(24px, 5vw, 36px); font-weight: 800; color: var(--brand-blue); text-transform: uppercase; animation: glow 3s infinite ease-in-out; display: inline-block; }
+        @keyframes glow { 0%, 100% { text-shadow: 0 0 5px rgba(59, 130, 246, 0.2); } 50% { text-shadow: 0 0 20px rgba(59, 130, 246, 0.4); } }
+        .shining-line { border: 0; height: 3px; background: linear-gradient(90deg, transparent, var(--brand-blue), transparent); width: 150px; margin: 20px auto; }
+        .crop-wrapper { width: 100%; max-height: 450px; background: #000; border-radius: 12px; overflow: hidden; margin-bottom: 1.5rem; }
+        #imageToCrop { max-width: 100%; display: block; }
+        .ratio-btns { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-bottom: 20px; }
+        .ratio-btn { background: rgba(59, 130, 246, 0.1); border: 1px solid var(--brand-blue); color: var(--brand-blue); padding: 8px 15px; border-radius: 8px; cursor: pointer; font-weight: 600; transition: 0.3s; }
+        .ratio-btn:hover { background: var(--brand-blue); color: white; }
+        .section-divider { border-top: 1px solid rgba(59, 130, 246, 0.15); padding: 40px 0; margin-top: 40px; }
+        .info-flex-container { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 30px; text-align: left; }
+        .info-column { flex: 1; min-width: 250px; }
+        .info-column h3 { color: var(--brand-blue); margin-bottom: 15px; }
+    </style>
+</head>
+<body class="color-image">
+    <header></header>
+
+    <main class="tool-container">
+        <div style="text-align: center; margin-bottom: 3rem;">
+            <div class="upload-icon">
+                <i data-lucide="crop" style="width: 64px; height: 64px;"></i>
+            </div>
+            <h2 style="font-size: 26px; font-weight: 700; color: inherit; margin-top: 1rem;">
+                Free Online <span class="shining-title">Image Cropper</span> Crop Photos Instantly
+            </h2>
+            <p style="font-size: 18px; opacity: 0.8; font-weight: 500; margin-top: 15px;">
+                Crop images instantly without <span style="color: var(--brand-blue);">losing quality</span>. Fast, secure, and online.
+            </p>
+            <div class="shining-line"></div>
+        </div>
+        
+        <div class="upload-box" id="dropZone">
+            <div class="upload-icon">
+                <i data-lucide="upload-cloud"></i>
+            </div>
+            <div class="upload-text">
+                <h3>Select Image File</h3>
+                <p>Drag & drop JPG, PNG, or WebP here</p>
+            </div>
+            <input type="file" id="fileInput" accept="image/*" style="position: absolute; inset: 0; opacity: 0; cursor: pointer;">
+        </div>
+
+        <div id="editorArea" style="display: none; margin-top: 2rem;">
+            <div class="crop-wrapper">
+                <img id="imageToCrop">
+            </div>
+            <div class="ratio-btns">
+                <button class="ratio-btn" onclick="setRatio(1)">1:1</button>
+                <button class="ratio-btn" onclick="setRatio(16/9)">16:9</button>
+                <button class="ratio-btn" onclick="setRatio(4/3)">4:3</button>
+                <button class="ratio-btn" onclick="setRatio(NaN)">Free</button>
+            </div>
+            <button id="downloadBtn" style="width: 100%; background: #28a745; color: white; padding: 1.2rem; border: none; border-radius: 12px; font-weight: 700; cursor: pointer;">📥 Download Cropped Image</button>
+            <p style="text-align: center; margin-top: 15px; font-size: 14px; opacity: 0.6; cursor: pointer;" onclick="location.reload()">🔄 Start New Session</p>
+        </div>
+
+        <div style="text-align: center; margin-top: 2rem;">
+            <a href="../../index" style="display: inline-flex; align-items: center; gap: 0.5rem; color: var(--brand-primary); font-weight: 700;">
+                <i data-lucide="arrow-left" style="width: 16px; height: 16px;"></i> Back to Home
+            </a>
+        </div>
+
+        <div style="width: 100%; margin: 60px auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 30px; text-align: center;">
+            <div><div style="font-size: 35px; color: #dc3545; margin-bottom: 10px;">♾️</div><h3>Unlimited</h3><p style="opacity: 0.8; font-size: 14px;">Unlimited crops without costs.</p></div>
+            <div><div style="font-size: 35px; color: #dc3545; margin-bottom: 10px;">⚡</div><h3>Fast</h3><p style="opacity: 0.8; font-size: 14px;">Instant local processing.</p></div>
+            <div><div style="font-size: 35px; color: #dc3545; margin-bottom: 10px;">🛡️</div><h3>Security</h3><p style="opacity: 0.8; font-size: 14px;">Private browser processing.</p></div>
+            <div><div style="font-size: 35px; color: #dc3545; margin-bottom: 10px;">📥</div><h3>Download</h3><p style="opacity: 0.8; font-size: 14px;">Ready for instant use.</p></div>
+        </div>
+
+        <div class="section-divider">
+            <h2 style="font-size: 28px; font-weight: 700; margin-bottom: 20px;">Image Cropper – Precise Photo Cutting</h2>
+            <p style="font-size: 18px; line-height: 1.7; opacity: 0.8;">Our online cropper tool allows you to trim photos for social media, profile pictures, or websites. Fast, free, and secure processing for JPG and PNG files.</p>
+        </div>
+
+        <div class="section-divider">
+            <div class="info-flex-container">
+                <div class="info-column"><h3>What Is it?</h3><p>An image cropper allows you to remove unwanted outer areas from an image, focusing on the subject.</p></div>
+                <div class="info-column"><h3>Why Us?</h3><p>100% Client-side privacy, no limits, and lightning-fast processing in your browser.</p></div>
+                <div class="info-column"><h3>Benefits</h3><p>Properly cropped images ensure consistent layouts and better visual engagement.</p></div>
+            </div>
+        </div>
+
+        <section class="faq-section">
+            <h2 class="section-title">Frequently Asked Questions</h2>
+            <div class="faq-item">
+                <button class="faq-question">Is this image cropper free? <i data-lucide="chevron-down" class="faq-icon"></i></button>
+                <div class="faq-answer">Yes, it's 100% free with no registration required.</div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question">Are my images safe? <i data-lucide="chevron-down" class="faq-icon"></i></button>
+                <div class="faq-answer">Absolutely. Everything happens in your browser locally.</div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question">Does it support JPG? <i data-lucide="chevron-down" class="faq-icon"></i></button>
+                <div class="faq-answer">Yes, it supports all major formats including JPG, PNG, and WebP.</div>
+            </div>
+        </section>
+
+        <div id="relatedBlogs"></div>
+    </main>
+
+    <footer></footer>
+
+    <script src="../../js/tools-data.js"></script>
+    <script src="../../js/blogs-data.js"></script>
+    <script src="../../js/script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
+    <script>
+        let cropper;
+        const fileInput = document.getElementById('fileInput');
+        const dropZone = document.getElementById('dropZone');
+        const editorArea = document.getElementById('editorArea');
+        const imageToCrop = document.getElementById('imageToCrop');
+
+        fileInput.onchange = (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                imageToCrop.src = event.target.result;
+                dropZone.style.display = 'none';
+                editorArea.style.display = 'block';
+                if (cropper) cropper.destroy();
+                cropper = new Cropper(imageToCrop, { viewMode: 1, autoCropArea: 1, responsive: true });
+            };
+            reader.readAsDataURL(file);
+        };
+
+        function setRatio(ratio) { if (cropper) cropper.setAspectRatio(ratio); }
+
+        document.getElementById('downloadBtn').onclick = () => {
+            if (!cropper) return;
+            const canvas = cropper.getCroppedCanvas();
+            const a = document.createElement('a');
+            a.href = canvas.toDataURL('image/png');
+            a.download = 'cropped-image-text2tool.png';
+            a.click();
+        };
+
+        renderRelatedBlogs('image-cropper');
+    </script>
+</body>
+</html>

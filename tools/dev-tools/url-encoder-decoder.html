@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>URL Encoder Decoder Online Free (Encode & Decode URLs Instantly)</title>
+    <meta name="description" content="Encode and decode URLs instantly with our free URL Encoder Decoder tool. Convert special characters into safe URL format, fix URL errors, and optimize links online without login.">
+    
+    <script type="application/ld+json">
+    {
+     "@context": "https://schema.org",
+     "@type": "FAQPage",
+     "mainEntity": [
+      {
+       "@type": "Question",
+       "name": "What is URL encoding?",
+       "acceptedAnswer": {
+         "@type": "Answer",
+         "text": "URL encoding converts special characters into a format that can be safely used in URLs."
+       }
+      },
+      {
+       "@type": "Question",
+       "name": "Is URL encoder free?",
+       "acceptedAnswer": {
+         "@type": "Answer",
+         "text": "Yes, this URL encoder and decoder tool is completely free to use."
+       }
+      },
+      {
+       "@type": "Question",
+       "name": "Can I decode URL online?",
+       "acceptedAnswer": {
+         "@type": "Answer",
+         "text": "Yes, this tool allows you to decode encoded URLs instantly."
+       }
+      },
+      {
+       "@type": "Question",
+       "name": "Why is URL encoding important?",
+       "acceptedAnswer": {
+         "@type": "Answer",
+         "text": "It ensures special characters are transmitted correctly in web URLs."
+       }
+      }
+     ]
+    }
+    </script>
+    <link rel="stylesheet" href="../../style.css">
+    <link rel="stylesheet" href="../tool-style.css">
+    <script src="../../js/favicon.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@700&display=swap" rel="stylesheet">
+
+    <style>
+        :root { 
+            --tool-yellow: #ffcc00; 
+            --tool-yellow-hover: #eab308;
+            --tool-accent-rgb: 255, 204, 0;
+        }
+
+        .yellow-glow { 
+            color: var(--tool-yellow); 
+            text-shadow: 0 0 15px rgba(var(--tool-accent-rgb), 0.3);
+        }
+
+        .tool-grid {
+            display: flex;
+            align-items: stretch;
+            gap: 20px;
+            margin-top: 2rem;
+        }
+
+        .editor-container {
+            flex: 1;
+            background: var(--bg-secondary);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 1.2rem;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .controls-middle {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            justify-content: center;
+            align-items: center;
+            min-width: 160px;
+        }
+
+        .editor-label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            color: var(--text-main);
+            text-transform: uppercase;
+        }
+
+        textarea {
+            width: 100%;
+            height: 450px;
+            background: var(--bg-primary);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 1rem;
+            color: var(--text-main);
+            font-family: 'Fira Code', monospace;
+            font-size: 13px;
+            resize: none;
+            transition: 0.2s;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: var(--tool-yellow);
+        }
+
+        .output-display {
+            width: 100%;
+            height: 450px;
+            background: var(--bg-primary);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 1rem;
+            overflow-y: auto;
+            font-family: 'Fira Code', monospace;
+            font-size: 13px;
+            color: var(--text-main);
+            white-space: pre-wrap;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .btn-convert-rect {
+            background: var(--tool-yellow);
+            color: #000;
+            border: none;
+            width: 100%;
+            padding: 15px;
+            border-radius: 10px;
+            font-weight: 800;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-transform: uppercase;
+            font-size: 13px;
+            box-shadow: 0 4px 12px rgba(var(--tool-accent-rgb), 0.2);
+            transition: 0.3s;
+        }
+
+        .btn-convert-rect:hover {
+            background: var(--tool-yellow-hover);
+            transform: translateY(-2px);
+        }
+
+        .btn-clear-circle {
+            background: var(--bg-secondary);
+            color: var(--text-main);
+            border: 1px solid var(--card-border);
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-clear-circle:hover { border-color: #ff4444; color: #ff4444; }
+
+        .icon-action {
+            background: rgba(var(--tool-accent-rgb), 0.1);
+            color: var(--tool-yellow);
+            border: 1px solid rgba(var(--tool-accent-rgb), 0.2);
+            padding: 4px 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 11px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-weight: 700;
+        }
+
+        .icon-box { font-size: 35px; margin-bottom: 10px; }
+        .step-icon { font-size: 28px; margin-bottom: 12px; }
+
+        @media (max-width: 900px) {
+            .tool-grid { flex-direction: column; }
+            .controls-middle { width: 100%; min-width: auto; flex-direction: row; }
+            textarea, .output-display { height: 300px; }
+        }
+    </style>
+</head>
+<body class="color-dev">
+    <header></header> 
+    
+    <main class="tool-container">
+        <div style="text-align: center; margin-bottom: 2rem;">
+            <div class="upload-icon">
+                <i data-lucide="link-2" style="width: 50px; height: 50px; color: var(--tool-yellow);"></i>
+            </div>
+            <h1 style="font-size: clamp(22px, 5vw, 32px); font-weight: 800; margin-top: 1rem; color: var(--text-main);">
+                <span class="yellow-glow">URL Encoder Decoder Online Free</span>
+            </h1>
+            <p style="color: var(--text-muted); max-width: 700px; margin: 10px auto; line-height: 1.6;">
+                Looking for a simple way to <strong>encode and decode URL online free</strong>? 
+                This URL Encoder Decoder tool helps you <strong>convert special characters into URL-safe format</strong>, 
+                fix encoding issues, and decode URLs instantly without login.
+            </p>
+            <p style="color: var(--text-muted); margin-top: 10px;">This tool works as a <strong>URL encoder and decoder online</strong> and helps you <strong>fix URL encoding errors instantly</strong>.</p>
+            <p style="color: var(--text-muted); margin-top: 5px;">
+                Use this tool to <strong>URL encode online</strong> and <strong>URL decode online instantly</strong> with fast and accurate results.
+            </p>
+            <p style="font-size: 13px; opacity: 0.7; margin-top: 5px; color: var(--text-muted);">
+                Tip: Use Encode for raw text → URL, Decode for encoded (%20, %40) strings → readable text.
+            </p>
+        </div>
+
+        <div class="tool-grid">
+            <div class="editor-container">
+                <div class="editor-label">
+                    <span>Input Text / URL</span>
+                    <button class="icon-action" onclick="pasteInput()"><i data-lucide="clipboard" style="width:14px;"></i> Paste</button>
+                </div>
+                <textarea id="url-input" placeholder="Enter URL or text (e.g. https://example.com?q=hello world)"></textarea>
+            </div>
+
+            <div class="controls-middle">
+                <button class="btn-convert-rect" onclick="handleEncode()">
+                    <i data-lucide="lock" style="width: 18px;"></i> Encode
+                </button>
+                <button class="btn-convert-rect" style="background: var(--bg-secondary); color: var(--text-main); border: 1px solid var(--card-border);" onclick="handleDecode()">
+                    <i data-lucide="unlock" style="width: 18px;"></i> Decode
+                </button>
+                <button class="btn-clear-circle" onclick="clearAll()" title="Clear All">
+                    <i data-lucide="trash-2"></i>
+                </button>
+            </div>
+
+            <div class="editor-container">
+                <div class="editor-label">
+                    <span>Result Output</span>
+                    <button class="icon-action" onclick="copyOutput()"><i data-lucide="copy" style="width:14px;"></i> Copy</button>
+                </div>
+                <div id="url-output" class="output-display">
+                    <div style="color: var(--text-muted); text-align: center; margin: auto;">Result will appear here...</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-divider"></div>
+        
+        <div class="seo-clean-layout" style="max-width: 900px; margin: 2rem auto; padding: 0 20px; color: var(--text-main);">
+            
+            <h2 style="color: var(--tool-yellow); font-size: 26px; font-weight: 800; margin-bottom: 1.5rem;">What is URL Encoder?</h2>
+            <p style="font-size: 17px; line-height: 1.8; opacity: 0.9; margin-bottom: 2rem;">
+                A URL encoder is a tool used to convert special characters into a format that can be safely transmitted over the internet. 
+                This <strong>URL encoder online free</strong> tool replaces unsafe characters with percent-encoded values, making URLs secure and readable by browsers.
+            </p>
+
+            <h2 style="color: var(--tool-yellow); font-size: 26px; font-weight: 800; margin-bottom: 1.5rem;">URL Encoder and Decoder Tool</h2>
+            <p style="font-size: 17px; line-height: 1.8; opacity: 0.9; margin-bottom: 2rem;">
+                This tool works as both a <strong>URL encoder and decoder online</strong>, allowing you to encode URLs for safe transmission 
+                and decode encoded URLs back into readable format. It is useful for developers, testers, and SEO professionals.
+            </p>
+
+            <h2 style="color: var(--tool-yellow); font-size: 26px; font-weight: 800; margin-bottom: 1.5rem;">URL Encoding Example</h2>
+            <p style="font-size: 17px; line-height: 1.8; opacity: 0.9; margin-bottom: 2rem;">
+                Example: <br>
+                Original → https://example.com?q=hello world <br>
+                Encoded → https://example.com?q=hello%20world
+            </p>
+
+            <div style="background: var(--bg-secondary); padding: 40px; border-radius: 24px; border: 1px solid rgba(var(--tool-accent-rgb), 0.1); margin-bottom: 50px; text-align: center;">
+                <h2 style="color: var(--tool-yellow); margin-bottom: 30px; font-weight: 800;">How to Encode or Decode URL Online</h2>
+                <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 40px;">
+                    <div style="max-width: 160px;">
+                        <div class="step-icon">📋</div>
+                        <p style="font-size: 14px;"><strong>Step 1</strong><br>Paste your URL</p>
+                    </div>
+                    <div style="max-width: 160px;">
+                        <div class="step-icon">⚙️</div>
+                        <p style="font-size: 14px;"><strong>Step 2</strong><br>Click Encode/Decode</p>
+                    </div>
+                    <div style="max-width: 160px;">
+                        <div class="step-icon">🔍</div>
+                        <p style="font-size: 14px;"><strong>Step 3</strong><br>View Result</p>
+                    </div>
+                    <div style="max-width: 160px;">
+                        <div class="step-icon">💾</div>
+                        <p style="font-size: 14px;"><strong>Step 4</strong><br>Copy Output</p>
+                    </div>
+                </div>
+            </div>
+
+            <h2 style="color: var(--tool-yellow); margin-bottom: 20px; font-weight: 800;">URL Encoder Decoder Features</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 40px;">
+                <div class="feature-item" style="background: var(--bg-secondary); padding: 20px; border-radius: 12px; border: 1px solid var(--card-border); text-align: center;">
+                    <div class="icon-box">⚡</div><strong>Encode Instantly</strong>
+                </div>
+                <div class="feature-item" style="background: var(--bg-secondary); padding: 20px; border-radius: 12px; border: 1px solid var(--card-border); text-align: center;">
+                    <div class="icon-box">🛡️</div><strong>Decode Quickly</strong>
+                </div>
+                <div class="feature-item" style="background: var(--bg-secondary); padding: 20px; border-radius: 12px; border: 1px solid var(--card-border); text-align: center;">
+                    <div class="icon-box">🎨</div><strong>Fix URL Errors</strong>
+                </div>
+                <div class="feature-item" style="background: var(--bg-secondary); padding: 20px; border-radius: 12px; border: 1px solid var(--card-border); text-align: center;">
+                    <div class="icon-box">🔒</div><strong>100% Browser-Based</strong>
+                </div>
+            </div>
+
+            <h2 style="color: var(--tool-yellow); margin-bottom: 15px; font-weight: 800;">Why Use URL Encoding?</h2>
+            <p style="line-height: 1.8; opacity: 0.9; margin-bottom: 20px;">
+                URL encoding is important for handling special characters in web addresses. 
+                This tool helps you <strong>encode URL parameters</strong>, fix broken links, and ensure proper data transmission in APIs and web applications.
+            </p>
+
+            <p style="background: rgba(var(--tool-accent-rgb), 0.1); padding: 15px; border-left: 4px solid var(--tool-yellow); border-radius: 4px; margin-bottom: 40px;">
+                <strong>Privacy Note:</strong> No data is uploaded to any server. Everything runs locally in your browser.
+            </p>
+
+            <h2 style="color: var(--tool-yellow); margin-bottom: 30px; font-weight: 800; text-align: center;">Frequently Asked Questions</h2>
+            <div style="display: flex; flex-direction: column; gap: 10px;">
+                <details style="background: var(--bg-secondary); border-radius: 12px; border: 1px solid var(--card-border); overflow: hidden; cursor: pointer;">
+                    <summary style="padding: 20px; font-weight: 700; color: var(--tool-yellow);">What is URL encoding?</summary>
+                    <div style="padding: 0 20px 20px 20px; opacity: 0.8;">URL encoding converts special characters into a format that can be safely used in URLs.</div>
+                </details>
+                <details style="background: var(--bg-secondary); border-radius: 12px; border: 1px solid var(--card-border); overflow: hidden; cursor: pointer;">
+                    <summary style="padding: 20px; font-weight: 700; color: var(--tool-yellow);">Is URL encoder free?</summary>
+                    <div style="padding: 0 20px 20px 20px; opacity: 0.8;">Yes, this URL encoder and decoder tool is completely free to use.</div>
+                </details>
+                <details style="background: var(--bg-secondary); border-radius: 12px; border: 1px solid var(--card-border); overflow: hidden; cursor: pointer;">
+                    <summary style="padding: 20px; font-weight: 700; color: var(--tool-yellow);">Can I decode URL online?</summary>
+                    <div style="padding: 0 20px 20px 20px; opacity: 0.8;">Yes, this tool allows you to decode encoded URLs instantly.</div>
+                </details>
+            </div>
+
+            <div style="margin-top: 40px; text-align: center; font-weight: 600;">
+                Also try: 
+                <a href="/tools/dev-tools/json-formatter" style="color: var(--tool-yellow);">JSON Formatter</a> | 
+                <a href="/tools/dev-tools/base64-to-image" style="color: var(--tool-yellow);">Base64 Encoder</a>
+            </div>
+        </div>
+
+        <div id="relatedBlogs"></div>
+    </main>
+
+    <footer></footer>
+
+    <script src="../../js/tools-data.js"></script>
+    <script src="../../js/blogs-data.js"></script>
+    <script src="../../js/script.js"></script>
+
+    <script>
+        lucide.createIcons();
+
+        function handleEncode() {
+            const input = document.getElementById('url-input').value.trim();
+            const output = document.getElementById('url-output');
+            if (!input) return;
+            try {
+                const result = encodeURIComponent(input);
+                output.style.display = 'block';
+                output.innerText = result;
+            } catch (e) {
+                output.style.display = 'block';
+                output.innerHTML = `<div style="color:#ff4444; background: rgba(255,68,68,0.1); border: 1px dashed #ff4444; border-radius: 8px; padding:20px; margin: 10px; font-weight:bold;">
+                    ❌ Error: ${e.message}
+                </div>`;
+            }
+        }
+
+        function handleDecode() {
+            const input = document.getElementById('url-input').value.trim();
+            const output = document.getElementById('url-output');
+            if (!input) return;
+            try {
+                // Fixed logic to handle spaces and potential URI errors
+                const result = decodeURIComponent(input.replace(/\+/g, " "));
+                output.style.display = 'block';
+                output.innerText = result;
+            } catch (e) {
+                output.style.display = 'block';
+                output.innerHTML = `<div style="color:#ff4444; background: rgba(255,68,68,0.1); border: 1px dashed #ff4444; border-radius: 8px; padding:20px; margin: 10px; font-weight:bold;">
+                    ❌ Error: Invalid encoded string.
+                </div>`;
+            }
+        }
+
+        async function pasteInput() {
+            try {
+                const text = await navigator.clipboard.readText();
+                document.getElementById('url-input').value = text;
+            } catch (err) {}
+        }
+
+        function copyOutput() {
+            const output = document.getElementById('url-output');
+            const text = output.innerText;
+            if(text.includes("appear here")) return;
+            navigator.clipboard.writeText(text).then(() => alert("Copied!"));
+        }
+
+        function clearAll() {
+            document.getElementById('url-input').value = "";
+            const output = document.getElementById('url-output');
+            output.style.display = 'flex'; 
+            output.innerHTML = `<div style="color: var(--text-muted); text-align: center; margin: auto;">Result will appear here...</div>`;
+        }
+    </script>
+</body>
+</html>

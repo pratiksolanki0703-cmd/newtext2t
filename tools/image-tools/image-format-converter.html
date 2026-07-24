@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Format Changer Online (Convert JPG, PNG, WEBP in Bulk)</title>
+    <meta name="description" content="Free online image format changer to convert JPG to PNG, PNG to JPG, and WebP to PNG in bulk. Fast, secure, and no quality loss. No login required.">
+
+    <meta name="keywords" content="image converter, bulk image conversion, heic to jpg, webp converter, png to jpg, batch image converter, online image tool, text2tool">
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "Bulk Image Format Converter",
+      "url": "https://text2tool.in/tools/image-tools/image-format-converter",
+      "applicationCategory": "MultimediaApplication",
+      "operatingSystem": "Any",
+      "description": "Free online image format converter to convert JPG to PNG, PNG to JPG, and WebP to JPG in bulk. Fast, secure, and no quality loss.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "featureList": [
+        "Bulk format conversion",
+        "JPG to PNG converter",
+        "PNG to JPG converter",
+        "WebP to JPG and PNG",
+        "100% Private browser-side processing",
+        "Download as ZIP"
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Is this image format converter free?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, this image format converter is completely free. You can convert JPG, PNG, or WebP images without any registration."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I convert images in bulk?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, you can upload and convert multiple images to your desired format all at once."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Will I lose quality during conversion?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No, our converter is designed to maintain high visual quality while switching between different file formats."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Are my images safe?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, all conversion happens locally in your browser, so your private images never leave your computer."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I download all converted images at once?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, you can download each image individually or use the ZIP download feature for bulk files."
+          }
+        }
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://text2tool.in/index"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Image Format Converter",
+          "item": "https://text2tool.in/tools/image-tools/image-format-converter"
+        }
+      ]
+    }
+  ]
+}
+</script>
+
+    
+    <link rel="stylesheet" href="../../style.css">
+    <link rel="stylesheet" href="../tool-style.css">
+    <script src="../../js/favicon.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/heic2any@0.0.3/dist/heic2any.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@700&display=swap" rel="stylesheet">
+
+    <style>
+        :root { --brand-blue: #3b82f6; }
+        
+        /* HEADER OVERLAP & STICKY FIX */
+        header { position: sticky; top: 0; z-index: 1000 !important;}
+
+        .shining-title { font-size: clamp(24px, 5vw, 36px); font-weight: 800; color: var(--brand-blue); text-transform: uppercase; animation: glow 3s infinite ease-in-out; display: inline-block; }
+        @keyframes glow { 0%, 100% { text-shadow: 0 0 5px rgba(59, 130, 246, 0.2); } 50% { text-shadow: 0 0 20px rgba(59, 130, 246, 0.4); } }
+        .shining-line { border: 0; height: 3px; background: linear-gradient(90deg, transparent, var(--brand-blue), transparent); width: 150px; margin: 20px auto; }
+
+        /* Workspace Layout */
+        .workspace-grid { display: none; grid-template-columns: 320px 1fr; gap: 25px; margin-top: 30px; align-items: start; }
+        
+        .controls-card { 
+            background: var(--bg-secondary); 
+            padding: 20px; 
+            border-radius: 15px; 
+            border: 1px solid var(--card-border); 
+            text-align: left;
+            position: sticky;
+            top: 90px; /* Header height + gap */
+            z-index: 90; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        .control-group { margin-bottom: 15px; }
+        .control-group label { display: block; font-weight: 600; margin-bottom: 5px; font-size: 0.85rem; }
+        .control-group select { width: 100%; padding: 10px; border-radius: 8px; border: 1px solid var(--card-border); background: var(--card-bg); color: var(--text-main); }
+
+        .bulk-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
+        .bulk-card { background: white; border: 1px solid #e5e7eb; border-radius: 15px; padding: 15px; position: relative; text-align: center; }
+        .card-preview { width: 100%; height: 130px; border-radius: 10px; object-fit: cover; background: #f3f4f6; margin-bottom: 10px; border: 1px solid #eee; }
+        
+        .card-loader { position: absolute; inset: 0; background: rgba(255,255,255,0.85); display: none; align-items: center; justify-content: center; border-radius: 15px; z-index: 10; flex-direction: column; }
+        .spinner { width: 25px; height: 25px; border: 3px solid #f3f3f3; border-top: 3px solid var(--brand-blue); border-radius: 50%; animation: spin 1s linear infinite; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        .stat-badge { display: flex; flex-direction: column; gap: 4px; font-size: 11px; margin-bottom: 10px; background: #eef2ff; padding: 8px; border-radius: 8px; font-weight: 700; color: var(--brand-blue); }
+        .badge-row { display: flex; justify-content: space-between; width: 100%; }
+        
+        .action-btn { width: 100%; padding: 12px; border: none; border-radius: 10px; font-weight: 700; cursor: pointer; transition: 0.3s; margin-top: 5px; font-size: 14px; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .btn-blue { background: #4f46e5; color: white; }
+        .btn-dark { background: #111827; color: white; }
+
+        /* SEO Section Styles */
+        .section-divider { border-top: 1px solid rgba(59, 130, 246, 0.15); padding: 40px 0; margin-top: 40px; text-align: left; }
+        .info-flex-container { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 30px; text-align: left; }
+        .info-column { flex: 1; min-width: 250px; }
+        .info-column h3 { color: var(--brand-blue); margin-bottom: 15px; }
+
+        @media (max-width: 900px) { .workspace-grid { grid-template-columns: 1fr; } .controls-card { position: relative; top: 0; } }
+    </style>
+</head>
+<body class="color-image">
+    <header></header>
+
+    <main class="tool-container">
+        <div style="text-align: center; margin-bottom: 2rem;">
+            <div class="upload-icon">
+                <i data-lucide="refresh-ccw" style="width: 64px; height: 64px; color: var(--brand-blue);"></i>
+            </div>
+                <h1 style="font-size: 26px; font-weight: 700; color: inherit; margin-top: 1rem;">
+    <span class="shining-title">Image Format Converter</span> (JPG to PNG, PNG to JPG, WebP & PDF)
+</h1>
+            <p style="font-size: 18px; opacity: 0.8; font-weight: 500; margin-top: 15px;">
+                Convert multiple photos to <span style="color: var(--brand-blue);">JPG, PNG, WEBP, or PDF</span>. Fast and secure.
+            </p>
+            <div class="shining-line"></div>
+        </div>
+        
+        <div class="upload-box" id="dropZone" onclick="document.getElementById('fileInput').click()">
+            <div class="upload-icon"><i data-lucide="upload-cloud"></i></div>
+            <div class="upload-text">
+                <h3>Select or Drag & Drop Images</h3>
+                <p>Supports HEIC, JPG, PNG, WEBP, AVIF</p>
+            </div>
+            <input type="file" id="fileInput" accept="image/*, .heic, .heif" multiple style="display: none;">
+        </div>
+
+        <div class="workspace-grid" id="converterGrid">
+            <div class="controls-card">
+                <div class="control-group">
+                    <label>✒️ Target Format</label>
+                    <select id="targetFormat">
+                        <option value="image/jpeg">JPG / JPEG (Standard)</option>
+                        <option value="image/png">PNG (High Quality)</option>
+                        <option value="image/webp">WEBP (Next-Gen)</option>
+                        <option value="application/pdf">PDF (Document)</option>
+                        <option value="image/avif">AVIF (Ultra Small)</option>
+                    </select>
+                </div>
+
+                <button class="action-btn btn-blue" id="downloadAllBtn"><i data-lucide="download"></i> Download All</button>
+                <button class="action-btn btn-dark" id="downloadZipBtn" style="margin-top:10px;"><i data-lucide="archive"></i> Save as ZIP</button>
+                
+                <div style="margin-top: 20px; border-top: 1px solid var(--card-border); padding-top: 20px;">
+                    <button class="action-btn" style="background:#f3f4f6; color:#444;" onclick="document.getElementById('fileInput').click()"><i data-lucide="plus-circle"></i> Add More</button>
+                    <p style="text-align: center; margin-top: 15px; font-size: 13px; opacity: 0.6; cursor: pointer;" onclick="location.reload()">🔄 Reset Session</p>
+                </div>
+            </div>
+
+            <div class="bulk-list" id="bulkList"></div>
+        </div>
+
+        <div style="width: 100%; margin: 60px auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 30px; text-align: center;">
+            <div>
+                <div style="font-size: 35px; color: var(--brand-blue); margin-bottom: 10px;">🚀</div>
+                <h3>Bulk Processing</h3>
+                <p style="opacity: 0.8; font-size: 14px;">Convert multiple images at once instantly.</p>
+            </div>
+            <div>
+                <div style="font-size: 35px; color: var(--brand-blue); margin-bottom: 10px;">🛠️</div>
+                <h3>All Formats</h3>
+                <p style="opacity: 0.8; font-size: 14px;">JPG, PNG, WEBP, HEIC, AVIF, and PDF support.</p>
+            </div>
+            <div>
+                <div style="font-size: 35px; color: var(--brand-blue); margin-bottom: 10px;">📱</div>
+                <h3>iPhone Ready</h3>
+                <p style="opacity: 0.8; font-size: 14px;">Convert HEIC photos to any standard format.</p>
+            </div>
+            <div>
+                <div style="font-size: 35px; color: var(--brand-blue); margin-bottom: 10px;">🛡️</div>
+                <h3>100% Private</h3>
+                <p style="opacity: 0.8; font-size: 14px;">Secure client-side browser processing.</p>
+            </div>
+        </div>
+
+        <div class="section-divider" style="text-align: left;">
+    <h2 style="font-size: 28px; font-weight: 700; margin-bottom: 20px;">Image Format Converter – Convert JPG, PNG & WebP Online</h2>
+    <div style="font-size: 18px; line-height: 1.7; opacity: 0.8;">
+        <p style="margin-bottom: 15px;">
+            Need to <strong>convert JPG to PNG</strong> or <strong>change WebP to JPG</strong>? This <strong>image format converter</strong> helps you switch between formats instantly for websites, apps, and official documents. Our <strong>bulk image converter</strong> supports all major formats without losing any quality.
+        </p>
+        <p>
+            Whether you need a <strong>png to jpg converter</strong> or want to <strong>convert images to webp</strong> for faster loading, this tool works entirely in your browser. Fast, secure, and 100% private processing for all your files.
+        </p>
+    </div>
+</div>
+
+<div class="section-divider">
+    <h2 style="font-size: 28px; font-weight: 700; margin-bottom: 20px;">How to Convert Image Formats Online</h2>
+    <ul style="font-size: 18px; line-height: 1.8; opacity: 0.8; text-align: left; max-width: 600px; margin: 0 auto;">
+        <li>✅ Upload one or multiple images</li>
+        <li>✅ Select your desired output format (JPG, PNG, WEBP, etc.)</li>
+        <li>✅ Adjust quality settings if required</li>
+        <li>✅ Images are converted instantly in your browser</li>
+        <li>✅ Download files individually or as a bulk ZIP file</li>
+    </ul>
+</div>
+
+<div class="section-divider">
+    <div class="info-column">
+        <h3>🔹 Why Convert Image Formats?</h3>
+        <p><strong>Universal Compatibility:</strong> Use the right format for any platform.<br>
+        <strong>Web Optimization:</strong> Convert to WebP for 3x faster website speed.<br>
+        <strong>Transparent Backgrounds:</strong> Easily switch to PNG for transparency.<br>
+        <strong>High Quality:</strong> Change formats without pixelation or blur.</p>
+    </div>
+    <div class="info-column">
+        <h3>⭐ Advanced Features (USP)</h3>
+        <p><strong>Bulk Conversion:</strong> Change formats for 50+ images at once.<br>
+        <strong>Instant Processing:</strong> Zero waiting time with local processing.<br>
+        <strong>Privacy First:</strong> No files are uploaded to any server.<br>
+        <strong>Multi-Format Support:</strong> JPG, PNG, WEBP, and more included.</p>
+    </div>
+</div>
+
+<section class="faq-section">
+    <h2 class="section-title">Frequently Asked Questions</h2>
+    <div class="faq-item">
+        <button class="faq-question">Is this image format converter free? <i data-lucide="chevron-down" class="faq-icon"></i></button>
+        <div class="faq-answer">Yes, this image format converter is completely free. You can convert JPG, PNG, or WebP images without any registration.</div>
+    </div>
+    <div class="faq-item">
+        <button class="faq-question">Can I convert images in bulk? <i data-lucide="chevron-down" class="faq-icon"></i></button>
+        <div class="faq-answer">Yes, you can upload and convert multiple images to your desired format all at once.</div>
+    </div>
+    <div class="faq-item">
+        <button class="faq-question">Will I lose quality during conversion? <i data-lucide="chevron-down" class="faq-icon"></i></button>
+        <div class="faq-answer">No, our converter is designed to maintain high visual quality while switching between different file formats.</div>
+    </div>
+    <div class="faq-item">
+        <button class="faq-question">Are my images safe? <i data-lucide="chevron-down" class="faq-icon"></i></button>
+        <div class="faq-answer">Yes, all conversion happens locally in your browser, so your private images never leave your computer.</div>
+    </div>
+    <div class="faq-item">
+        <button class="faq-question">Can I download all converted images at once? <i data-lucide="chevron-down" class="faq-icon"></i></button>
+        <div class="faq-answer">Yes, you can download each image individually or use the ZIP download feature for bulk files.</div>
+    </div>
+</section>
+
+
+        <div id="relatedBlogs"></div>
+    </main>
+
+    <footer></footer>
+
+    <script src="../../js/tools-data.js"></script>
+    <script src="../../js/blogs-data.js"></script>
+    <script src="../../js/script.js"></script>
+    
+    <script>
+        const fileInput = document.getElementById('fileInput');
+        const bulkList = document.getElementById('bulkList');
+        const targetFormat = document.getElementById('targetFormat');
+        let fileQueue = []; 
+
+        fileInput.onchange = (e) => {
+            const files = Array.from(e.target.files);
+            if(files.length > 0) {
+                document.getElementById('dropZone').style.display = 'none';
+                document.getElementById('converterGrid').style.display = 'grid';
+                files.forEach((file, index) => {
+                    const id = Date.now() + index;
+                    fileQueue.push({ id, original: file, converted: null });
+                    addCardUI(file, id);
+                });
+                processBatch();
+            }
+        };
+
+        function addCardUI(file, id) {
+            const ext = file.name.split('.').pop().toUpperCase();
+            const card = document.createElement('div');
+            card.className = 'bulk-card';
+            card.id = `card-${id}`;
+            card.innerHTML = `
+                <div class="card-loader" id="loader-${id}"><div class="spinner"></div></div>
+                <img class="card-preview" id="img-${id}" src="">
+                <div class="stat-badge">
+                    <div class="badge-row"><span>From:</span> <span>${ext}</span></div>
+                    <div class="badge-row"><span>To:</span> <span id="target-label-${id}">...</span></div>
+                    <div class="badge-row"><span>Status:</span> <span id="status-${id}">Pending</span></div>
+                </div>
+                <button class="action-btn btn-blue" id="btn-${id}" onclick="downloadOne(${id})" disabled>Download</button>
+            `;
+            bulkList.appendChild(card);
+        }
+
+        async function processBatch() {
+            let formatLabel = targetFormat.options[targetFormat.selectedIndex].text.split(' ')[0];
+            for (let item of fileQueue) {
+                const targetLabel = document.getElementById(`target-label-${item.id}`);
+                if(targetLabel) targetLabel.innerText = formatLabel;
+                if (item.converted && item.lastFormat === targetFormat.value) continue;
+                const loader = document.getElementById(`loader-${item.id}`);
+                const status = document.getElementById(`status-${item.id}`);
+                const btn = document.getElementById(`btn-${item.id}`);
+                const preview = document.getElementById(`img-${item.id}`);
+                if(loader) loader.style.display = 'flex';
+                try {
+                    let sourceBlob = item.original;
+                    const ext = item.original.name.split('.').pop().toLowerCase();
+                    if ((ext === 'heic' || ext === 'heif') && !item.previewUrl) {
+                        sourceBlob = await heic2any({ blob: item.original, toType: "image/jpeg" });
+                    }
+                    if (!item.previewUrl) item.previewUrl = URL.createObjectURL(sourceBlob);
+                    preview.src = item.previewUrl;
+                    const img = new Image();
+                    img.src = item.previewUrl;
+                    await img.decode();
+                    const canvas = document.createElement('canvas');
+                    canvas.width = img.width; canvas.height = img.height;
+                    const ctx = canvas.getContext('2d');
+                    if (targetFormat.value === 'image/jpeg') {
+                        ctx.fillStyle = "#FFFFFF";
+                        ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    }
+                    ctx.drawImage(img, 0, 0);
+                    if (targetFormat.value === 'application/pdf') {
+                        const { jsPDF } = window.jspdf;
+                        const doc = new jsPDF({ orientation: img.width > img.height ? 'l' : 'p', unit: 'px', format: [img.width, img.height] });
+                        doc.addImage(canvas.toDataURL('image/jpeg', 1.0), 'JPEG', 0, 0, img.width, img.height);
+                        item.converted = doc.output('blob');
+                    } else {
+                        item.converted = await new Promise(r => canvas.toBlob(r, targetFormat.value, 0.92));
+                    }
+                    item.lastFormat = targetFormat.value;
+                    status.innerText = "Done";
+                    btn.disabled = false;
+                    loader.style.display = 'none';
+                } catch (e) { status.innerText = "Error"; loader.style.display = 'none'; }
+            }
+        }
+
+        targetFormat.onchange = processBatch;
+
+        function downloadOne(id) {
+            const item = fileQueue.find(f => f.id === id);
+            if(item?.converted) {
+                const a = document.createElement('a');
+                let ext = targetFormat.value.split('/')[1];
+                if(ext === 'jpeg') ext = 'jpg';
+                if(targetFormat.value === 'application/pdf') ext = 'pdf';
+                a.href = URL.createObjectURL(item.converted);
+                a.download = `text2tool-${item.original.name.split('.')[0]}.${ext}`;
+                a.click();
+            }
+        }
+
+        document.getElementById('downloadZipBtn').onclick = async () => {
+            const zip = new JSZip();
+            fileQueue.forEach(i => { 
+                if(i.converted) {
+                    let ext = targetFormat.value.split('/')[1];
+                    if(ext === 'jpeg') ext = 'jpg';
+                    if(targetFormat.value === 'application/pdf') ext = 'pdf';
+                    zip.file(`${i.original.name.split('.')[0]}.${ext}`, i.converted); 
+                }
+            });
+            const content = await zip.generateAsync({type: "blob"});
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(content); a.download = "images-text2tool.zip"; a.click();
+        };
+
+        document.getElementById('downloadAllBtn').onclick = () => {
+            fileQueue.forEach(item => downloadOne(item.id));
+        };
+
+        window.onload = () => { if(window.lucide) lucide.createIcons(); };
+    </script>
+</body>
+</html>

@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Base64 to Image Converter Online (Free, PNG & JPG Instant Decode)</title>
+    <meta name="description" content="Use our free Base64 to Image Converter to instantly decode Base64 strings into PNG or JPG images online. Fast, secure browser-based conversion with no login required.">
+        
+            <link rel="canonical" href="https://text2tool.in/tools/dev-tools/base64-to-image.html" />
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "SoftwareApplication",
+          "name": "Base64 to Image Converter",
+          "operatingSystem": "Web",
+          "applicationCategory": "DeveloperApplication",
+          "description": "Free online Base64 to Image Converter to decode Base64 strings into PNG or JPG images instantly. Works securely in your browser.",
+          "url": "https://text2tool.in/tools/dev-tools/base64-to-image.html",
+          "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+          }
+        },
+        {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Home",
+              "item": "https://text2tool.in/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Base64 to Image Converter",
+              "item": "https://text2tool.in/tools/dev-tools/base64-to-image.html"
+            }
+          ]
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "Q1. Is this Base64 to Image Converter free?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes, this Base64 to Image Converter is completely free to use and does not require any login."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Q2. Is my data safe when converting Base64 to image?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes, all Base64 to image conversion happens locally in your browser. Your data is never uploaded to any server."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Q3. What image formats are supported in this Base64 to Image Converter?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "It supports common formats like PNG, JPG, JPEG, and WebP when decoding Base64 strings."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Q4. Can I download the converted image after decoding Base64?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes, after converting the Base64 string to an image, you can preview and download it instantly using the download button."
+              }
+            }
+          ]
+        }
+      ]
+    }
+    </script>
+
+    <link rel="stylesheet" href="../../style.css">
+    <link rel="stylesheet" href="../tool-style.css">
+    <script src="../../js/favicon.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@700&display=swap" rel="stylesheet">
+
+    <style>
+        :root { 
+            --tool-yellow: #ffcc00; 
+            --tool-yellow-hover: #eab308;
+            --tool-accent-rgb: 255, 204, 0;
+        }
+
+        .yellow-glow { 
+            color: var(--tool-yellow); 
+            text-shadow: 0 0 15px rgba(var(--tool-accent-rgb), 0.3);
+        }
+        .internal-links {
+            margin-top: 2rem;
+            padding: 1rem;
+            background: rgba(var(--tool-accent-rgb), 0.05);
+            border-radius: 10px;
+            text-align: center;
+            font-size: 14px;
+        }
+        .internal-links a { color: var(--tool-yellow); text-decoration: none; margin: 0 10px; font-weight: 600; }
+        .internal-links a:hover { text-decoration: underline;
+            
+        }
+
+        .tool-grid {
+            display: flex;
+            align-items: stretch;
+            gap: 20px;
+            margin-top: 2rem;
+        }
+
+        .editor-container {
+            flex: 1;
+            background: var(--bg-secondary);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 1.2rem;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .controls-middle {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            justify-content: center;
+            align-items: center;
+            min-width: 160px;
+        }
+
+        .editor-label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            color: var(--text-main);
+            text-transform: uppercase;
+        }
+
+        textarea {
+            width: 100%;
+            height: 400px;
+            background: var(--bg-primary);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 1rem;
+            color: var(--text-main);
+            font-family: 'Fira Code', monospace;
+            font-size: 13px;
+            resize: none;
+            transition: 0.2s;
+            word-break: break-all;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: var(--tool-yellow);
+        }
+
+        /* Preview Box Styling */
+        .preview-box {
+            width: 100%;
+            height: 400px;
+            background: var(--bg-primary);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+            padding: 10px;
+        }
+
+        #image-display {
+            max-width: 100%;
+            max-height: 100%;
+            border-radius: 4px;
+            display: none;
+            object-fit: contain;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .placeholder-text {
+            color: var(--text-muted);
+            font-size: 14px;
+            text-align: center;
+            opacity: 0.6;
+        }
+
+        .btn-convert-rect {
+            background: var(--tool-yellow);
+            color: #000;
+            border: none;
+            width: 100%;
+            padding: 15px;
+            border-radius: 10px;
+            font-weight: 800;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-transform: uppercase;
+            font-size: 13px;
+            box-shadow: 0 4px 12px rgba(var(--tool-accent-rgb), 0.2);
+            transition: 0.3s;
+        }
+
+        .btn-convert-rect:hover {
+            background: var(--tool-yellow-hover);
+            transform: translateY(-2px);
+        }
+
+        .btn-clear-circle {
+            background: var(--bg-secondary);
+            color: var(--text-main);
+            border: 1px solid var(--card-border);
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-clear-circle:hover {
+            border-color: #ff4444;
+            color: #ff4444;
+        }
+
+        .icon-action {
+            background: rgba(var(--tool-accent-rgb), 0.1);
+            color: var(--tool-yellow);
+            border: 1px solid rgba(var(--tool-accent-rgb), 0.2);
+            padding: 4px 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 11px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-weight: 700;
+        }
+
+        @media (max-width: 900px) {
+            .tool-grid { flex-direction: column; }
+            .controls-middle { width: 100%; min-width: auto; flex-direction: row; }
+            textarea, .preview-box { height: 280px; }
+        }
+    </style>
+</head>
+<body class="color-dev">
+    <header></header> 
+    
+    <main class="tool-container">
+        <div style="text-align: center; margin-bottom: 2rem;">
+            <div class="upload-icon">
+                <i data-lucide="image-down" style="width: 50px; height: 50px; color: var(--tool-yellow);"></i>
+            </div>
+            <h1 style="font-size: clamp(22px, 5vw, 32px); font-weight: 800; margin-top: 1rem; color: var(--text-main);"><span class="yellow-glow">Base64 to Image</span> Converter Online Free
+            </h1>
+            <p style="color: var(--text-muted); max-width: 600px; margin: 10px auto;">
+                Convert Base64 strings into PNG or JPG images instantly with our free Base64 to Image Converter. Secure local browser processing, no upload, and no login required.
+            </p>
+        </div>
+
+        <div class="tool-grid">
+            <div class="editor-container">
+                <div class="editor-label">
+                    <span>Base64 String Input</span>
+                    <button class="icon-action" onclick="pasteInput()"><i data-lucide="clipboard" style="width:14px;"></i> Paste</button>
+                </div>
+                <textarea id="base64-input" placeholder="Paste your Base64 string here (data:image/png;base64,...)"></textarea>
+            </div>
+
+            <div class="controls-middle">
+                <button class="btn-convert-rect" onclick="decodeBase64()">
+                    <i data-lucide="refresh-cw" style="width: 18px;"></i> Decode
+                </button>
+                <button class="btn-clear-circle" onclick="clearAll()" title="Clear All Data">
+                    <i data-lucide="trash-2"></i>
+                </button>
+            </div>
+
+            <div class="editor-container">
+                <div class="editor-label">
+                    <span>Image Preview</span>
+                    <button class="icon-action" id="download-btn" style="display:none;" onclick="downloadImage()">
+                        <i data-lucide="download" style="width:14px;"></i> Download
+                    </button>
+                </div>
+                <div class="preview-box">
+                    <div id="placeholder" class="placeholder-text">Image preview will appear here</div>
+                    <img id="image-display" alt="Base64 to Image Converter Output Preview">
+                </div>
+            </div>
+        </div>
+        
+        <div class="internal-links">
+            Check out more useful tools:
+            <a href="/tools/dev-tools/image-to-base64.html">Image to Base64 Converter</a> |
+            <a href="/tools/dev-tools/json-to-xml.html">JSON to XML Converter</a> |
+            <a href="/tools/dev-tools/url-encoder-decoder.html">URL Encoder Decoder</a>
+        </div>
+
+        <div>
+        <div class="section-divider"> </div>
+
+        <div style="max-width: 900px; margin: 0 auto 4rem auto; padding: 0 20px;">
+            <h2 style="color: var(--tool-yellow); font-size: 26px; font-weight: 800; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 12px;">
+                <i data-lucide="info" style="width: 28px; height: 28px;"></i> About Base64 to Image Converter
+            </h2>
+            <p style="font-size: 17px; line-height: 1.8; opacity: 0.9; color: var(--text-main); text-align: left;">
+                Need a quick way to decode Base64 image data? Our Base64 to Image Converter helps you convert Base64 strings into viewable image files like PNG and JPG directly in your browser. This free tool is useful for developers, designers, and anyone working with encoded image data. Simply paste your Base64 string, decode it instantly, and preview the image in seconds.
+            </p>
+            <p>Because everything happens locally in your browser, your data stays private and secure. No files are uploaded to any server, making this Base64 to Image Converter both fast and safe to use.
+            </p>
+        </div>
+        
+            <div class="section-divider" style="max-width: 900px; margin: 40px auto; text-align: center; color: inherit;">
+            
+            <h2 style="color: var(--tool-yellow); margin-bottom: 40px; font-weight: 800;">Why Use This Base64 to Image Converter?</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 60px;">
+                <div class="feature-item" style="background: var(--bg-secondary); padding: 25px; border-radius: 15px; border: 1px solid var(--card-border); text-align: center;">
+                    <div style="font-size: 35px; margin-bottom: 10px;">✅</div>
+                    <strong style="font-size: 14px; color: var(--text-main);">100% Free Tool</strong>
+                </div>
+                <div class="feature-item" style="background: var(--bg-secondary); padding: 25px; border-radius: 15px; border: 1px solid var(--card-border); text-align: center;">
+                    <div style="font-size: 35px; margin-bottom: 10px;">🛡️</div>
+                    <strong style="font-size: 14px; color: var(--text-main);">Secure Browser Processing</strong>
+                </div>
+                <div class="feature-item" style="background: var(--bg-secondary); padding: 25px; border-radius: 15px; border: 1px solid var(--card-border); text-align: center;">
+                    <div style="font-size: 35px; margin-bottom: 10px;">⚡</div>
+                        <strong style="font-size: 14px; color: var(--text-main);">Instant Base64 Decoding</strong>
+                </div>
+                <div class="feature-item" style="background: var(--bg-secondary); padding: 25px; border-radius: 15px; border: 1px solid var(--card-border); text-align: center;">
+                    <div style="font-size: 35px; margin-bottom: 10px;">🖼️</div>
+                    <strong style="font-size: 14px; color: var(--text-main);">PNG and JPG Support</strong>
+                </div>
+                <div class="feature-item" style="background: var(--bg-secondary); padding: 25px; border-radius: 15px; border: 1px solid var(--card-border); text-align: center;">
+                    <div style="font-size: 35px; margin-bottom: 10px;">🔒</div>
+                    <strong style="font-size: 14px; color: var(--text-main);">No Login Required</strong>
+                </div>
+                <div class="feature-item" style="background: var(--bg-secondary); padding: 25px; border-radius: 15px; border: 1px solid var(--card-border); text-align: center;">
+                    <div style="font-size: 35px; margin-bottom: 10px;">♾️</div>
+                    <strong style="font-size: 14px; color: var(--text-main);">Unlimited Usage</strong>
+                </div>
+            </div>
+
+            <div style="background: var(--bg-secondary); padding: 40px; border-radius: 24px; border: 1px solid rgba(var(--tool-accent-rgb), 0.1); margin-bottom: 50px; text-align: center;">
+                <h2 style="color: var(--tool-yellow); margin-bottom: 30px; font-weight: 800;">How to Convert Base64 to Image Online</h2>
+                <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 40px;">
+                    <div style="max-width: 160px;">
+                        <div style="font-size: 28px; color: var(--tool-yellow); margin-bottom: 12px;">📋</div>
+                        <p style="font-size: 14px; color: var(--text-main);"><strong>Step 1</strong><br>Paste your Base64 string into the input box.</p>
+                    </div>
+                    <div style="max-width: 160px;">
+                        <div style="font-size: 28px; color: var(--tool-yellow); margin-bottom: 12px;">🖱️</div>
+                        <p style="font-size: 14px; color: var(--text-main);"><strong>Step 2</strong><br>Click the Decode button.</p>
+                    </div>
+                    <div style="max-width: 160px;">
+                        <div style="font-size: 28px; color: var(--tool-yellow); margin-bottom: 12px;">🖼️</div>
+                        <p style="font-size: 14px; color: var(--text-main);"><strong>Step 3</strong><br>Preview the generated image</p>
+                    </div>
+                    <div style="max-width: 160px;">
+                        <div style="font-size: 28px; color: var(--tool-yellow); margin-bottom: 12px;">💾</div>
+                        <p style="font-size: 14px; color: var(--text-main);"><strong>Step 4</strong><br>Download the image file.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-bottom: 50px; text-align: left;">
+                <div style="background: var(--bg-secondary); padding: 30px; border-radius: 20px; border: 1px solid var(--card-border);">
+                    <h2 style="color: var(--tool-yellow); margin-bottom: 15px; font-weight: 700;">💡 Why Convert Base64 to Image?</h2>
+                    <ul style="list-style: none; padding: 0; line-height: 2.2; opacity: 0.9; color: var(--text-main);">
+                        <li>• 🔹 <strong>View encoded images instantly:</strong> Convert text into visible files.</li>
+                        <li>• 🔹 <strong>Useful for Developers:</strong> Extract images from API responses.</li>
+                        <li>• 🔹 <strong>Quick Debugging:</strong> Debug broken Base64 strings quickly.</li>
+                        <li>• 🔹 <strong>Save Time:</strong> Save time without manual decoding.</li>
+                    </ul>
+                </div>
+                <div style="background: var(--bg-secondary); padding: 30px; border-radius: 20px; border: 1px solid var(--card-border);">
+                    <h2 style="color: var(--tool-yellow); margin-bottom: 15px; font-weight: 700;">⚡ How It Works</h2>
+                    <p style="opacity: 0.8; line-height: 1.8; color: var(--text-main);">The Base64 to Image Converter decodes the encoded string and rebuilds the original image data in your browser. Once decoded, the image is displayed instantly so you can preview and download it. Since the conversion runs locally, your information never leaves your device.
+                    </p>
+                </div>
+            </div>
+
+            <h2 style="color: var(--tool-yellow); margin-bottom: 30px; font-weight: 800;">Frequently Asked Questions</h2>
+<div style="text-align: left; margin-bottom: 50px; display: flex; flex-direction: column; gap: 12px;">
+    
+    <details style="background: var(--bg-secondary); border-radius: 12px; border: 1px solid var(--card-border); overflow: hidden; cursor: pointer;">
+        <summary style="padding: 20px; font-weight: 700; color: var(--tool-yellow); list-style: none; display: flex; justify-content: space-between; align-items: center;">
+            Q1. Is this Base64 to Image Converter free?
+            <span style="font-size: 12px; opacity: 0.5;">▼</span>
+        </summary>
+        <div style="padding: 0 20px 20px 20px; font-size: 14px; opacity: 0.8; color: var(--text-main);">
+            Yes, this Base64 to Image Converter is completely free to use and does not require any login.
+        </div>
+    </details>
+    
+    <details style="background: var(--bg-secondary); border-radius: 12px; border: 1px solid var(--card-border); overflow: hidden; cursor: pointer;">
+        <summary style="padding: 20px; font-weight: 700; color: var(--tool-yellow); list-style: none; display: flex; justify-content: space-between; align-items: center;">
+            Q2. Is my data safe when converting Base64 to image?
+            <span style="font-size: 12px; opacity: 0.5;">▼</span>
+        </summary>
+        <div style="padding: 0 20px 20px 20px; font-size: 14px; opacity: 0.8; color: var(--text-main);">
+            Yes, all Base64 to image conversion happens locally in your browser. Your data is never uploaded to any server.
+        </div>
+    </details>
+    
+    <details style="background: var(--bg-secondary); border-radius: 12px; border: 1px solid var(--card-border); overflow: hidden; cursor: pointer;">
+        <summary style="padding: 20px; font-weight: 700; color: var(--tool-yellow); list-style: none; display: flex; justify-content: space-between; align-items: center;">
+            Q3. What image formats are supported in this Base64 to Image Converter?
+            <span style="font-size: 12px; opacity: 0.5;">▼</span>
+        </summary>
+        <div style="padding: 0 20px 20px 20px; font-size: 14px; opacity: 0.8; color: var(--text-main);">
+            It supports common formats like PNG, JPG, JPEG, and WebP when decoding Base64 strings.
+        </div>
+    </details>
+    
+    <details style="background: var(--bg-secondary); border-radius: 12px; border: 1px solid var(--card-border); overflow: hidden; cursor: pointer;">
+        <summary style="padding: 20px; font-weight: 700; color: var(--tool-yellow); list-style: none; display: flex; justify-content: space-between; align-items: center;">
+            Q4. Can I download the converted image after decoding Base64?
+            <span style="font-size: 12px; opacity: 0.5;">▼</span>
+        </summary>
+        <div style="padding: 0 20px 20px 20px; font-size: 14px; opacity: 0.8; color: var(--text-main);">
+            Yes, after converting the Base64 string to an image, you can preview and download it instantly using the download button.
+            </div>
+        </details>
+    </div>
+
+            </div>
+        </div>
+
+        <div id="relatedBlogs"></div>
+    </main>
+
+    <footer></footer>
+
+    <script src="../../js/tools-data.js"></script>
+    <script src="../../js/blogs-data.js"></script>
+    <script src="../../js/script.js"></script>
+
+        <script>
+        lucide.createIcons();
+
+        const base64Input = document.getElementById('base64-input');
+        const imageDisplay = document.getElementById('image-display');
+        const placeholder = document.getElementById('placeholder');
+        const downloadBtn = document.getElementById('download-btn');
+
+        async function pasteInput() {
+            try {
+                const text = await navigator.clipboard.readText();
+                base64Input.value = text;
+            } catch (err) {
+                alert("Clipboard permission denied.");
+            }
+        }
+
+                        function decodeBase64() {
+            let str = base64Input.value.trim();
+            
+            if (!str) {
+                alert("Please paste a Base64 string first.");
+                return;
+            }
+
+            if (str.length < 20) {
+                alert("Invalid Base64 string! It's too short.");
+                clearAll();
+                return;
+            }
+
+            if (!str.startsWith('data:image/')) {
+                const cleanBase64Pattern = /^[A-Za-z0-9+/]+={0,2}$/;
+                if (!cleanBase64Pattern.test(str.replace(/[\s\n\r]/g, ''))) {
+                    alert("Error: Invalid characters detected in Base64 string!");
+                    clearAll();
+                    return;
+                }
+                str = 'data:image/png;base64,' + str;
+            }
+
+            imageDisplay.style.display = 'none';
+
+            imageDisplay.onload = () => {
+                imageDisplay.style.display = 'block';
+                placeholder.style.display = 'none';
+                downloadBtn.style.display = 'inline-flex';
+            };
+
+            imageDisplay.onerror = () => {
+                alert("Error: Invalid Image Code! Please enter a valid Base64 string.");
+                clearAll(); 
+            };
+
+            imageDisplay.src = str;
+        }
+
+        function downloadImage() {
+            if (!imageDisplay.src) return;
+            const link = document.createElement('a');
+            link.href = imageDisplay.src;
+            
+            // Extract extension dynamically (png, jpeg, webp)
+            const match = imageDisplay.src.match(/^data:image\/([a-zA-Z+]+);base64,/);
+            const ext = match ? match[1].replace('jpeg', 'jpg') : 'png';
+            
+            link.download = `decoded-image-${Date.now()}.${ext}`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        function clearAll() {
+            base64Input.value = '';
+            imageDisplay.src = '';
+            imageDisplay.removeAttribute('src'); // Completely remove source
+            imageDisplay.style.display = 'none';
+            placeholder.style.display = 'block';
+            downloadBtn.style.display = 'none';
+        }
+    </script>
+</body>
+</html>

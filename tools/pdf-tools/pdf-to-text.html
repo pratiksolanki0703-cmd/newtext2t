@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online PDF to Text - Extract Text from PDF | text2tool</title>
+    <meta name="description" content="Extract clean, formatted text from any PDF document instantly. Free online PDF to text converter with high accuracy and secure processing.">
+    
+    <link rel="stylesheet" href="../../style.css">
+    <link rel="stylesheet" href="../tool-style.css">
+    <script src="../../js/favicon.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@700&display=swap" rel="stylesheet">
+
+    <style>
+        :root { --brand-red: #ef4444; --brand-red-dark: #dc2626; --brand-red-light: rgba(239, 68, 68, 0.05); }
+        
+        .shining-title { font-size: clamp(24px, 5vw, 36px); font-weight: 800; color: var(--brand-red); text-transform: uppercase; animation: glow 3s infinite ease-in-out; display: inline-block; }
+        @keyframes glow { 0%, 100% { text-shadow: 0 0 5px rgba(239, 68, 68, 0.2); } 50% { text-shadow: 0 0 20px rgba(239, 68, 68, 0.4); } }
+        .shining-line { border: 0; height: 3px; background: linear-gradient(90deg, transparent, var(--brand-red), transparent); width: 150px; margin: 20px auto; }
+        
+        /* Red Upload Box */
+        .upload-area-red { border: 2px dashed var(--brand-red) !important; background: var(--brand-red-light) !important; padding: 40px; text-align: center; cursor: pointer; border-radius: 20px; transition: 0.3s; position: relative; margin-bottom: 20px; }
+        .upload-area-red:hover { background: rgba(239, 68, 68, 0.1) !important; }
+
+        /* Workspace Grid */
+        .workspace-grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: 25px; margin-top: 30px; }
+        .controls-card { background: var(--bg-secondary); padding: 25px; border-radius: 15px; border: 1px solid var(--card-border); text-align: left; height: fit-content; }
+        
+        /* Textarea Style */
+        #output { width: 100%; height: 450px; padding: 15px; border-radius: 12px; border: 1px solid var(--card-border); background: var(--card-bg); color: var(--text-main); font-family: 'Courier New', monospace; font-size: 0.9rem; line-height: 1.6; resize: none; }
+
+        .btn-red { width: 100%; background: var(--brand-red); color: white; padding: 15px; border: none; border-radius: 12px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; transition: 0.3s; }
+        .btn-red:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        @media (max-width: 900px) { .workspace-grid { grid-template-columns: 1fr; } }
+
+        /* Dark Red Border for SEO & FAQ Sections */
+        .section-divider { border-top: 2px solid rgba(239, 68, 68, 0.4); padding: 40px 0; margin-top: 40px; }
+        
+        /* Progress Bar */
+        .progress-bar-bg { background: var(--card-border); height: 8px; border-radius: 4px; overflow: hidden; margin-top: 15px; display: none; }
+        .progress-bar-fill { background: var(--brand-red); width: 0%; height: 100%; transition: width 0.2s; }
+    </style>
+</head>
+<body class="color-pdf">
+    <header></header>
+
+    <main class="tool-container">
+        <div style="text-align: center; margin-bottom: 2rem;">
+            <div class="upload-icon" style="color: var(--brand-red);">
+                <i data-lucide="file-type-2" style="width: 64px; height: 64px;"></i>
+            </div>
+            <h1 style="font-size: 26px; font-weight: 700; margin-top: 1rem;">
+                Free Online <span class="shining-title">PDF to Text</span> Converter
+            </h1>
+            <p style="font-size: 18px; opacity: 0.8; font-weight: 500; margin-top: 15px;">
+                Extract clean text from <span style="color: var(--brand-red);">PDF documents</span> instantly.
+            </p>
+            <div class="shining-line"></div>
+        </div>
+
+        <div class="workspace-grid">
+            <aside class="controls-card">
+                <div style="margin-bottom: 20px;">
+                    <label style="display:block; font-weight:600; margin-bottom:10px; font-size: 0.9rem;">📂 Step 1: Upload PDF</label>
+                    <div class="upload-area-red" onclick="document.getElementById('fileInput').click()">
+                        <i data-lucide="upload-cloud" style="width: 40px; height: 40px; color: var(--brand-red); margin-bottom: 10px;"></i>
+                        <p id="fileNameDisplay" style="font-weight: 600; font-size: 0.9rem;">Click to Choose PDF</p>
+                        <input type="file" id="fileInput" accept=".pdf" style="display: none;">
+                    </div>
+                </div>
+
+                <button id="convertBtn" class="btn-red" disabled>
+                    <i data-lucide="zap"></i> Extract Text Now
+                </button>
+
+                <div class="progress-bar-bg" id="progressWrapper">
+                    <p id="statusText" style="font-size: 0.75rem; margin-bottom: 5px; font-weight: 600;">Processing...</p>
+                    <div class="progress-bar-fill" id="progressBar"></div>
+                </div>
+            </aside>
+
+            <section style="display: flex; flex-direction: column; gap: 15px;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <h3 style="font-size: 1.1rem; font-weight: 700;">📝 Extracted Content</h3>
+                    <div style="display: flex; gap: 10px;">
+                        <button id="copyBtn" class="btn-red" style="padding: 8px 15px; font-size: 0.8rem; width: auto;" disabled><i data-lucide="copy" style="width:14px;"></i> Copy</button>
+                        <button id="downloadBtn" class="btn-red" style="padding: 8px 15px; font-size: 0.8rem; width: auto; background: #374151;" disabled><i data-lucide="download" style="width:14px;"></i> .TXT</button>
+                    </div>
+                </div>
+                <textarea id="output" placeholder="Your extracted text will appear here..." readonly></textarea>
+            </section>
+        </div>
+
+        <div style="width: 100%; margin: 60px auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 30px; text-align: center;">
+            <div><div style="font-size: 35px; color: #dc3545; margin-bottom: 10px;">⚡</div><h3>Fast Extraction</h3><p style="opacity: 0.8; font-size: 14px;">Get text in seconds from any PDF.</p></div>
+            <div><div style="font-size: 35px; color: #dc3545; margin-bottom: 10px;">♾️</div><h3>100% Free</h3><p style="opacity: 0.8; font-size: 14px;">No limits, no subscriptions needed.</p></div>
+            <div><div style="font-size: 35px; color: #dc3545; margin-bottom: 10px;">🛡️</div><h3>Secure</h3><p style="opacity: 0.8; font-size: 14px;">Processed locally in your browser.</p></div>
+            <div><div style="font-size: 35px; color: #dc3545; margin-bottom: 10px;">📋</div><h3>Easy Copy</h3><p style="opacity: 0.8; font-size: 14px;">One-click copy to clipboard.</p></div>
+        </div>
+
+        <div class="section-divider">
+            <h2 style="font-size: 28px; font-weight: 700; margin-bottom: 20px;">High Accuracy PDF to Text Extraction</h2>
+            <p style="font-size: 18px; line-height: 1.7; opacity: 0.8;">Our tool uses advanced browser-side scripts to read PDF layers and extract text without losing the original flow. Perfect for researchers, students, and professionals who need to edit content from PDF files.</p>
+        </div>
+
+        <div class="section-divider">
+            <div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 30px; text-align: left;">
+                <div class="info-column" style="flex:1; min-width:250px;"><h3>What Is it?</h3><p>A tool that converts uneditable PDF data into plain text (.txt) that you can easily edit or copy.</p></div>
+                <div class="info-column" style="flex:1; min-width:250px;"><h3>Why Us?</h3><p>We offer 100% privacy—your documents never leave your computer or touch our servers.</p></div>
+                <div class="info-column" style="flex:1; min-width:250px;"><h3>Benefits</h3><p>Easily search, reuse, and translate content from PDF reports, assignments, or legal documents.</p></div>
+            </div>
+        </div>
+
+        <section class="faq-section section-divider">
+            <h2 class="section-title">Frequently Asked Questions</h2>
+            <div class="faq-item">
+                <button class="faq-question">Does it support scanned PDFs? <i data-lucide="chevron-down" class="faq-icon"></i></button>
+                <div class="faq-answer">Currently, it works best with "Selectable" PDFs. Scanned images inside PDFs may not be extracted.</div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question">How many pages can I extract? <i data-lucide="chevron-down" class="faq-icon"></i></button>
+                <div class="faq-answer">There is no hard limit, but very large files (100+ pages) might take longer to process.</div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question">Can I use it on mobile? <i data-lucide="chevron-down" class="faq-icon"></i></button>
+                <div class="faq-answer">Yes, it is fully responsive and works on Chrome, Safari, and other mobile browsers.</div>
+            </div>
+        </section>
+
+        <div id="relatedBlogs"></div>
+    </main>
+
+    <footer></footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script src="../../js/tools-data.js"></script>
+    <script src="../../js/blogs-data.js"></script>
+    <script src="../../js/script.js"></script>
+    
+    <script>
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+        const fileInput = document.getElementById('fileInput');
+        const convertBtn = document.getElementById('convertBtn');
+        const output = document.getElementById('output');
+        const fileNameDisplay = document.getElementById('fileNameDisplay');
+        const progressWrapper = document.getElementById('progressWrapper');
+        const progressBar = document.getElementById('progressBar');
+        const statusText = document.getElementById('statusText');
+        const copyBtn = document.getElementById('copyBtn');
+        const downloadBtn = document.getElementById('downloadBtn');
+
+        let selectedFile = null;
+
+        fileInput.onchange = (e) => {
+            const file = e.target.files[0];
+            if (file && file.type === 'application/pdf') {
+                selectedFile = file;
+                fileNameDisplay.innerText = file.name;
+                convertBtn.disabled = false;
+                output.value = "";
+            }
+        };
+
+        convertBtn.onclick = async () => {
+            if (!selectedFile) return;
+            convertBtn.disabled = true;
+            progressWrapper.style.display = 'block';
+            output.value = "Starting extraction...";
+            
+            try {
+                const arrayBuffer = await selectedFile.arrayBuffer();
+                const pdf = await pdfjsLib.getDocument(arrayBuffer).promise;
+                let fullText = "";
+
+                for (let i = 1; i <= pdf.numPages; i++) {
+                    const progress = Math.round((i / pdf.numPages) * 100);
+                    statusText.innerText = `Reading Page ${i} of ${pdf.numPages}...`;
+                    progressBar.style.width = progress + '%';
+
+                    const page = await pdf.getPage(i);
+                    const textContent = await page.getTextContent();
+                    const pageText = textContent.items.map(item => item.str).join(' ');
+                    fullText += `--- Page ${i} ---\n${pageText}\n\n`;
+                    output.value = fullText; 
+                }
+
+                statusText.innerText = "Extraction Complete!";
+                copyBtn.disabled = false;
+                downloadBtn.disabled = false;
+                convertBtn.disabled = false;
+            } catch (err) {
+                alert("Error reading PDF: " + err.message);
+                convertBtn.disabled = false;
+            }
+        };
+
+        copyBtn.onclick = () => {
+            navigator.clipboard.writeText(output.value);
+            const originalText = copyBtn.innerHTML;
+            copyBtn.innerHTML = "<i data-lucide='check' style='width:14px;'></i> Copied!";
+            lucide.createIcons();
+            setTimeout(() => { copyBtn.innerHTML = originalText; lucide.createIcons(); }, 2000);
+        };
+
+        downloadBtn.onclick = () => {
+            const blob = new Blob([output.value], { type: 'text/plain' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = selectedFile.name.replace('.pdf', '.txt');
+            a.click();
+        };
+
+        window.onload = () => { if(window.lucide) lucide.createIcons(); };
+    </script>
+</body>
+</html>

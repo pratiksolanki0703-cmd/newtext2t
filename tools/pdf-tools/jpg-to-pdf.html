@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JPG to PDF Converter Online Free – Combine JPG/JPEG, Reduce Size (100KB, 200KB) & Convert Images to PDF</title>
+    <meta name="description" content="Convert JPG to PDF online free. Combine JPG/JPEG images, reduce PDF size to 100KB, 200KB or 300KB, and download instantly. Fast, secure, browser-based image to PDF converter with no upload required.">
+    
+    <link rel="stylesheet" href="../../style.css">
+    <link rel="stylesheet" href="../tool-style.css">
+    <script src="../../js/favicon.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@700&display=swap" rel="stylesheet">
+
+    <style>
+        /* Red Theme Implementation */
+        :root { --brand-red: #ef4444; --brand-red-dark: #dc2626; --brand-red-light: rgba(239, 68, 68, 0.05); }
+        
+        .seo-h1 { font-size: 14px; font-weight: 600; color: var(--text-main); opacity: 0.6; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px; }
+        
+        .shining-title { font-size: clamp(24px, 5vw, 36px); font-weight: 800; color: var(--brand-red); text-transform: uppercase; animation: glow 3s infinite ease-in-out; display: inline-block; }
+        @keyframes glow { 0%, 100% { text-shadow: 0 0 5px rgba(239, 68, 68, 0.2); } 50% { text-shadow: 0 0 20px rgba(239, 68, 68, 0.4); } }
+        .shining-line { border: 0; height: 3px; background: linear-gradient(90deg, transparent, var(--brand-red), transparent); width: 150px; margin: 20px auto; }
+        
+        .upload-area-red { border: 2px dashed var(--brand-red) !important; background: var(--brand-red-light) !important; padding: 40px; text-align: center; cursor: pointer; border-radius: 20px; transition: 0.3s; position: relative; }
+        .upload-area-red:hover { background: rgba(239, 68, 68, 0.1) !important; }
+
+        .workspace-grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: 25px; margin-top: 30px; }
+        .controls-card { background: var(--bg-secondary); padding: 25px; border-radius: 15px; border: 1px solid var(--card-border); text-align: left; height: fit-content; }
+        .control-group { margin-bottom: 20px; }
+        .control-group label { display: block; font-weight: 600; margin-bottom: 8px; font-size: 0.9rem; }
+        select, input { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid var(--card-border); background: var(--card-bg); color: var(--text-main); font-family: inherit; }
+
+        .image-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 12px; background: var(--bg-secondary); padding: 15px; border-radius: 15px; border: 1px solid var(--card-border); min-height: 400px; align-content: start; }
+        .img-card { position: relative; background: var(--card-bg); border-radius: 10px; padding: 5px; border: 1px solid var(--card-border); }
+        .img-card img { width: 100%; height: 110px; object-fit: cover; border-radius: 6px; }
+        
+        .remove-btn { position: absolute; top: -5px; right: -5px; background: var(--brand-red); color: white; border: none; border-radius: 50%; width: 22px; height: 22px; cursor: pointer; font-size: 14px; font-weight: bold; z-index: 5; }
+        
+        /* New Reorder Buttons */
+        .reorder-btns { position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%); display: flex; gap: 5px; background: rgba(0,0,0,0.5); padding: 2px 5px; border-radius: 20px; }
+        .reorder-btns button { background: none; border: none; color: white; cursor: pointer; padding: 2px; }
+
+        .btn-convert { width: 100%; background: var(--brand-red); color: white; padding: 15px; border: none; border-radius: 12px; font-weight: 700; cursor: pointer; margin-top: 10px; transition: 0.3s; }
+        .btn-convert:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        @media (max-width: 900px) { .workspace-grid { grid-template-columns: 1fr; } }
+        .section-divider { border-top: 2px solid rgba(239, 68, 68, 0.4); padding: 40px 0; margin-top: 40px; }
+    </style>
+        <script type="application/ld+json">
+    {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How to convert JPG to PDF online for free?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Upload your JPG images, click convert, and download your PDF instantly. No signup or installation required."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I combine multiple JPG images into one PDF?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, you can upload multiple images and merge them into a single PDF document easily."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is this JPG to PDF converter safe to use?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, all processing happens in your browser, so your files are never uploaded to any server."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does it support JPEG and PNG formats?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, this tool supports JPG, JPEG, and PNG images for conversion into PDF."
+                }
+            }
+        ]
+    }
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "JPG to PDF Converter",
+  "operatingSystem": "Web",
+  "applicationCategory": "DeveloperApplication",
+  "description": "Free online JPG to PDF converter to combine images, reduce PDF size to 100KB or 200KB, and download instantly. Secure browser-based processing.",
+  "url": "https://text2tool.in/tools/pdf-tools/jpg-to-pdf",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://text2tool.in/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "JPG to PDF Converter",
+      "item": "https://text2tool.in/tools/pdf-tools/jpg-to-pdf"
+    }
+  ]
+}
+</script>
+</head>
+<body class="color-pdf">
+    <header></header>
+
+    <main class="tool-container">
+        <div style="text-align: center; margin-bottom: 2rem;">
+            <div class="upload-icon" style="color: var(--brand-red);">
+                <i data-lucide="file-image" style="width: 64px; height: 64px;"></i>
+            </div>
+            <h1 style="font-size: 26px; font-weight: 700; margin-top: 1rem;">
+                Free <span class="shining-title">JPG to PDF</span>  Converter Online – Combine Images & Reduce Size
+            </h1>
+            <p style="font-size: 18px; opacity: 0.8; font-weight: 500; margin-top: 15px;">
+                Easily convert JPG to PDF, combine multiple images, and create high-quality PDF files in seconds. Supports <span style="color: var(--brand-red);">JPG, JPEG, and PNG</span> formats.
+            </p>
+            <div class="shining-line"></div>
+        </div>
+
+        <div class="workspace-grid">
+            <aside class="controls-card">
+                <div class="control-group">
+                    <label>🖼️ Select Your Images</label>
+                    <div class="upload-area-red" onclick="document.getElementById('fileInput').click()">
+                        <i data-lucide="images" style="width: 40px; height: 40px; color: var(--brand-red); margin-bottom: 10px;"></i>
+                        <p id="fileStatus" style="font-weight: 600; font-size: 0.9rem;">Click to Upload Files</p>
+                        <p style="font-size: 0.75rem; opacity: 0.7;">Select multiple at once</p>
+                        <input type="file" id="fileInput" accept="image/*" multiple style="display: none;">
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label>Page Format</label>
+                    <select id="pageFormat">
+                        <option value="fit">Fit to Image Size (Recommended)</option>
+                        <option value="a4">Standard A4 Page (Centered)</option>
+                    </select>
+                </div>
+
+                <div class="control-group">
+                    <label>Compression Quality (Reduce Size)</label>
+                    <input type="range" id="quality" min="0.1" max="1.0" step="0.1" value="0.8">
+                    <div style="display: flex; justify-content: space-between; font-size: 12px; margin-top: 5px;">
+                        <span>Smaller Size</span>
+                        <span>Best Quality</span>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label>Output Filename</label>
+                    <input type="text" id="outFilename" placeholder="text2tool_converted">
+                </div>
+
+                <button id="convertBtn" class="btn-convert" disabled>
+                    🚀 Convert to PDF
+                </button>
+                <p id="resetLink" style="text-align: center; margin-top: 15px; font-size: 13px; opacity: 0.6; cursor: pointer; display:none;" onclick="location.reload()">🔄 Reset Gallery</p>
+            </aside>
+            <section class="preview-grid-wrapper">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                    <h3 style="font-size: 1.1rem; font-weight: 700;">Selection Queue (<span id="count">0</span>)</h3>
+                </div>
+                <div class="image-grid" id="imageGrid">
+                    <p id="emptyMsg" style="grid-column: 1/-1; text-align: center; opacity: 0.5; padding-top: 150px;">Please select images to start...</p>
+                </div>
+            </section>
+        </div>
+        <div style="margin: 20px 0; padding: 15px; background: var(--brand-red-light); border-left: 4px solid var(--brand-red); border-radius: 8px;">
+        <p style="font-size: 14px; color: var(--text-main); margin: 0; display: flex; align-items: center; gap: 8px;">
+        <i data-lucide="info" style="width: 18px; height: 18px; color: var(--brand-red);"></i>
+        <strong>Note:</strong> Final PDF size may vary depending on image quality and compression settings.
+    </p>
+</div>
+
+        
+        <div style="width: 100%; margin: 60px auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 30px; text-align: center;">
+            <div><div style="font-size: 35px; color: #dc3545; margin-bottom: 10px;">♾️</div><h3>Unlimited Files</h3><p style="opacity: 0.8; font-size: 14px;">No limits on the number of images per PDF.</p></div>
+            <div><div style="font-size: 35px; color: #dc3545; margin-bottom: 10px;">⚡</div><h3>Super Fast</h3><p style="opacity: 0.8; font-size: 14px;">Offline processing for instant results.</p></div>
+            <div><div style="font-size: 35px; color: #dc3545; margin-bottom: 10px;">🛡️</div><h3>100% Private</h3><p style="opacity: 0.8; font-size: 14px;">Browser-based conversion. We don't see your data.</p></div>
+            <div><div style="font-size: 35px; color: #dc3545; margin-bottom: 10px;">📥</div><h3>High-Res</h3><p style="opacity: 0.8; font-size: 14px;">Retain original quality or compress as needed.</p></div>
+        </div>
+
+        <div class="section-divider">
+            <div style="max-width: 900px; margin: 0 auto; padding: 0;">
+                <h2 style="font-size: 28px; font-weight: 700; margin-bottom: 20px;">
+                    Convert JPG to PDF Online Free (Combine & Compress Images)
+                </h2>
+                <p style="font-size: 18px; line-height: 1.7; opacity: 0.8; margin-bottom: 15px;">
+                    This JPG to PDF converter helps you quickly convert images into a clean and shareable PDF file. Whether you want to combine JPG images into one PDF, upload documents online, or organize your photos, this tool makes the process simple and fast.
+                </p>
+                <p style="font-size: 18px; line-height: 1.7; opacity: 0.8; margin-bottom: 15px;">
+                    You can upload multiple JPG or JPEG images and merge them into a single PDF document without losing quality. It’s perfect for students, professionals, and anyone who needs a reliable image to PDF converter without installing any software.
+                </p>
+                <p style="font-size: 18px; line-height: 1.7; opacity: 0.8;">
+                    Unlike many tools, this online JPG to PDF converter works directly in your browser. That means your files stay private while you convert JPG to PDF instantly and securely.
+                </p>
+            </div>
+        </div>
+
+        <div class="section-divider">
+            <div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 30px; text-align: left;">
+                <div class="info-column" style="flex:1; min-width:250px;">
+                    <h3>What Is JPG to PDF Converter?</h3>
+                    <p>A JPG to PDF converter is a tool that converts image files like JPG, JPEG, or PNG into a PDF format. This helps in sharing multiple images as a single document.</p>
+                </div>
+                <div class="info-column" style="flex:1; min-width:250px;">
+                    <h3>Why Use This Tool?</h3>
+                    <p>If you want to combine JPG images into one PDF or need to upload documents online, this tool makes it easy. It works fast and does not require any signup.</p>
+                </div>
+                <div class="info-column" style="flex:1; min-width:250px;">
+                    <h3>Key Benefits</h3>
+                    <p>Convert JPG to PDF online free, merge images, maintain quality, and download instantly. A simple and reliable solution for everyday use.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-divider">
+            <h2 style="font-size: 28px; font-weight: 700; margin-bottom: 20px;">Convert JPG to PDF with Custom Size Control</h2>
+            <p style="font-size: 18px; line-height: 1.7; opacity: 0.8;">Need to merge photos for an assignment or job application? Our <strong>Image to PDF converter</strong> is designed for speed. You can easily adjust the quality settings to ensure your output file stays under 100KB or 200KB, making it perfect for official portals.</p>
+        </div>
+
+        <section class="faq-section">
+            <h2 class="section-title">Frequently Asked Questions</h2>
+            <div class="faq-item">
+                <button class="faq-question">How to convert JPG to PDF online for free? <i data-lucide="chevron-down" class="faq-icon"></i></button>
+                <div class="faq-answer">Upload your JPG images, click convert, and download your PDF instantly. No signup or installation required.</div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">Can I combine multiple JPG images into one PDF? <i data-lucide="chevron-down" class="faq-icon"></i></button>
+                <div class="faq-answer">Yes, you can upload multiple images and merge them into a single PDF document easily.</div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">Is this JPG to PDF converter safe to use? <i data-lucide="chevron-down" class="faq-icon"></i></button>
+                <div class="faq-answer">Yes, all processing happens in your browser, so your files are never uploaded to any server.</div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">Does it support JPEG and PNG formats? <i data-lucide="chevron-down" class="faq-icon"></i></button>
+                <div class="faq-answer">Yes, this tool supports JPG, JPEG, and PNG images for conversion into PDF.</div>
+            </div>
+        </section>
+
+        <div id="relatedBlogs"></div>
+    </main>
+
+    <footer></footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="../../js/tools-data.js"></script>
+    <script src="../../js/blogs-data.js"></script>
+    <script src="../../js/script.js"></script>
+    
+    <script>
+        const { jsPDF } = window.jspdf;
+        let allImages = [];
+        const fileInput = document.getElementById('fileInput');
+        const imageGrid = document.getElementById('imageGrid');
+        const countSpan = document.getElementById('count');
+        const convertBtn = document.getElementById('convertBtn');
+        const resetLink = document.getElementById('resetLink');
+
+        fileInput.onchange = (e) => {
+            const files = Array.from(e.target.files);
+            files.forEach(file => {
+                if (file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = (event) => {
+                        allImages.push({ data: event.target.result, name: file.name });
+                        updateUI();
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+            fileInput.value = null;
+        };
+
+        function updateUI() {
+            imageGrid.innerHTML = '';
+            countSpan.innerText = allImages.length;
+            if (allImages.length > 0) {
+                convertBtn.disabled = false;
+                resetLink.style.display = 'block';
+                allImages.forEach((img, index) => {
+                    const card = document.createElement('div');
+                    card.className = 'img-card';
+        card.innerHTML = `
+    <button class="remove-btn" onclick="removeImg(${index})" aria-label="Remove Image">×</button>
+    <img src="${img.data}" alt="Image Preview ${index + 1}">
+    <div class="reorder-btns">
+        <button onclick="move(${index}, -1)" title="Move Left" aria-label="Move Left"><i data-lucide="chevron-left" style="width:14px;"></i></button>
+        <button onclick="move(${index}, 1)" title="Move Right" aria-label="Move Right"><i data-lucide="chevron-right" style="width:14px;"></i></button>
+    </div>
+`;
+
+                    imageGrid.appendChild(card);
+                });
+                if(window.lucide) lucide.createIcons();
+            } else {
+                convertBtn.disabled = true;
+                resetLink.style.display = 'none';
+                imageGrid.innerHTML = '<p id="emptyMsg" style="grid-column: 1/-1; text-align: center; opacity: 0.5; padding-top: 150px;">Please select images to start...</p>';
+            }
+        }
+
+        window.removeImg = (i) => {
+            allImages.splice(i, 1);
+            updateUI();
+        };
+
+        window.move = (index, direction) => {
+            const newIndex = index + direction;
+            if (newIndex >= 0 && newIndex < allImages.length) {
+                const temp = allImages[index];
+                allImages[index] = allImages[newIndex];
+                allImages[newIndex] = temp;
+                updateUI();
+            }
+        };
+
+        convertBtn.onclick = async () => {
+    if (allImages.length === 0) return;
+
+    convertBtn.disabled = true;
+    convertBtn.innerText = "Processing...";
+    
+    const format = document.getElementById('pageFormat').value;
+    const qualityValue = parseFloat(document.getElementById('quality').value); // 0.1 to 1.0
+    let pdf;
+    
+    for (let i = 0; i < allImages.length; i++) {
+        const img = new Image();
+        img.src = allImages[i].data;
+
+        await new Promise(res => {
+            img.onload = () => {
+                // --- CANVAS COMPRESSION START ---
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                canvas.width = img.width;
+                canvas.height = img.height;
+                ctx.drawImage(img, 0, 0);
+                
+                // Slider ki value ke hisab se image ko naya compressed dataURL dena
+                const compressedDataURL = canvas.toDataURL('image/jpeg', qualityValue);
+                // --- CANVAS COMPRESSION END ---
+
+                const w = img.width;
+                const h = img.height;
+                const orientation = w > h ? 'l' : 'p';
+
+                if (i === 0) {
+                    pdf = (format === 'fit') ? new jsPDF({ orientation: orientation, format: [w, h], unit: 'px' }) : new jsPDF();
+                } else {
+                    (format === 'fit') ? pdf.addPage([w, h], orientation) : pdf.addPage();
+                }
+
+                if (format === 'fit') {
+                    // Yahan compressedDataURL use ho raha hai
+                    pdf.addImage(compressedDataURL, 'JPEG', 0, 0, w, h);
+                } else {
+                    const pW = pdf.internal.pageSize.getWidth();
+                    const pH = pdf.internal.pageSize.getHeight();
+                    const ratio = Math.min(pW / w, pH / h);
+                    const x = (pW - w * ratio) / 2;
+                    const y = (pH - h * ratio) / 2;
+                    pdf.addImage(compressedDataURL, 'JPEG', x, y, w * ratio, h * ratio);
+                }
+                res();
+            };
+        });
+    }
+
+    const fileName = document.getElementById('outFilename').value || 'text2tool_images';
+    pdf.save(`${fileName}.pdf`);
+    
+    convertBtn.disabled = false;
+    convertBtn.innerText = "🚀 Convert to PDF";
+};
+
+        window.onload = () => { if(window.lucide) lucide.createIcons(); };
+    </script>
+</body>
+</html>

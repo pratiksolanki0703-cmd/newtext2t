@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>HTML Compiler Online (Run HTML, CSS & JavaScript Code Free) | text2tool</title>
+    <meta name="description" content="Run HTML, CSS and JavaScript code online for free. Fast HTML compiler with live preview. No login required.">
+        <!-- 1. Canonical Tag -->
+    <link rel="canonical" href="https://text2tool.in/tools/dev-tools/html-compiler">
+    
+    <!-- 2. SoftwareApplication Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "HTML Compiler Online",
+      "url": "https://text2tool.in/tools/dev-tools/html-compiler",
+      "description": "Run HTML, CSS and JavaScript code online for free. Fast HTML compiler with live preview and no login required.",
+      "applicationCategory": "DeveloperApplication",
+      "operatingSystem": "Web",
+      "browserRequirements": "Requires JavaScript",
+      "softwareVersion": "1.0",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "featureList": [
+        "Run HTML, CSS, and JS simultaneously",
+        "Real-time live preview window",
+        "No login required",
+        "Sandboxed browser execution environment"
+      ]
+    }
+    </script>
+
+    <!-- 3. FAQ Schema (Exact Match with your UI Content - No Extra Commas) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Q1. Is this HTML Compiler free?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, it is completely free and requires no login or subscription."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Q2. Can I run CSS and JavaScript also?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, you can run HTML, CSS, and JavaScript together in one execution environment."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Q3. Do I need to install anything?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No, everything runs 100% in your browser. No installation or setup is required."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Q4. Is it safe to use?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Absolutely. Since the code runs locally in your browser, your data is never sent to our servers."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Q5. Can I use it on mobile?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, our editor is fully responsive and optimized for both desktop and mobile web view screens."
+          }
+        }
+      ]
+    }
+    </script>
+
+    <!-- 4. BreadcrumbList Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://text2tool.in/index"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "HTML Compiler",
+          "item": "https://text2tool.in/tools/dev-tools/html-compiler"
+        }
+      ]
+    }
+    </script>
+    
+    
+    <link rel="stylesheet" href="../../style.css">
+    <link rel="stylesheet" href="../tool-style.css">
+    <script src="../../js/favicon.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@700&display=swap" rel="stylesheet">
+
+    <style>
+        :root { 
+            --tool-yellow: #ffcc00; 
+            --tool-yellow-hover: #eab308;
+            --tool-accent-rgb: 255, 204, 0;
+            --live-red: #ff4444;
+        }
+
+        .compiler-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 2rem;
+            min-height: 600px;
+        }
+
+        /* Editor Side Configuration */
+        .editor-side {
+            background: var(--bg-secondary);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .tab-system {
+            display: flex;
+            background: rgba(0,0,0,0.2);
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .tab-btn {
+            padding: 14px 22px;
+            border: none;
+            background: transparent;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 13px;
+            text-transform: uppercase;
+            transition: 0.3s;
+            border-right: 1px solid var(--card-border);
+        }
+
+        .tab-btn.active {
+            background: var(--bg-secondary);
+            color: var(--tool-yellow);
+            border-bottom: 2px solid var(--tool-yellow);
+        }
+
+        .code-area {
+            flex: 1;
+            position: relative;
+        }
+
+        textarea {
+            width: 100%;
+            height: 100%;
+            min-height: 500px;
+            background: transparent;
+            border: none;
+            padding: 1.5rem;
+            color: #d1d5db;
+            font-family: 'Fira Code', monospace;
+            font-size: 14px;
+            resize: none;
+            display: none;
+            outline: none;
+        }
+
+        textarea.active { display: block; }
+
+        /* Preview Side Configuration */
+        .preview-side {
+            background: #fff;
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .preview-header {
+            background: var(--bg-secondary);
+            padding: 10px 15px;
+            border-bottom: 1px solid var(--card-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Live Label Animation */
+        @keyframes pulseGlow {
+            0% { opacity: 0.6; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.05); text-shadow: 0 0 10px rgba(255, 68, 68, 0.5); }
+            100% { opacity: 0.6; transform: scale(1); }
+        }
+
+        .live-label {
+            color: var(--live-red);
+            font-size: 12px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            animation: pulseGlow 2.5s infinite ease-in-out;
+        }
+
+        .live-dot {
+            width: 8px;
+            height: 8px;
+            background-color: var(--live-red);
+            border-radius: 50%;
+            box-shadow: 0 0 12px var(--live-red);
+        }
+
+        iframe {
+            width: 100%;
+            flex: 1;
+            border: none;
+            background: #fff;
+            min-height: 500px;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-action-icon {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--card-border);
+            color: var(--text-main);
+            padding: 8px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-action-icon:hover {
+            background: rgba(var(--tool-accent-rgb), 0.1);
+            border-color: var(--tool-yellow);
+            color: var(--tool-yellow);
+        }
+
+        .run-btn {
+            background: var(--tool-yellow);
+            color: #000;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 8px;
+            font-weight: 800;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            transition: 0.3s;
+            box-shadow: 0 4px 12px rgba(var(--tool-accent-rgb), 0.2);
+        }
+
+        .run-btn:hover {
+            background: var(--tool-yellow-hover);
+            transform: translateY(-1px);
+        }
+
+        @media (max-width: 1000px) {
+            .compiler-container { grid-template-columns: 1fr; }
+            textarea, iframe { min-height: 400px; }
+        }
+    </style>
+</head>
+<body class="color-dev">
+    <header></header> 
+    
+    <main class="tool-container">
+        <div style="text-align: center; margin-bottom: 2rem;">
+            <div class="upload-icon">
+                <i data-lucide="code" style="width: 50px; height: 50px; color: var(--tool-yellow);"></i>
+            </div>
+            <h1 style="font-size: clamp(22px, 5vw, 32px); font-weight: 800; margin-top: 1rem; color: var(--text-main);">
+                Free <span style="color:var(--tool-yellow)">HTML Compiler</span> Online
+            </h1>
+            <p style="color: var(--text-muted);">Real-time HTML, CSS, and JS Execution Environment</p>
+        </div>
+
+        <div class="compiler-container">
+            
+            <div class="editor-side">
+                <div class="tab-system">
+                    <button class="tab-btn active" onclick="switchTab(event, 'html-input')">HTML</button>
+                    <button class="tab-btn" onclick="switchTab(event, 'css-input')">CSS</button>
+                    <button class="tab-btn" onclick="switchTab(event, 'js-input')">JS</button>
+                </div>
+                
+                <div class="code-area">
+                    <textarea id="html-input" class="active" spellcheck="false" placeholder="<div class='container'>
+    <h1>Hello text2tool!</h1>
+    <p>Edit this code to see changes in real-time.</p>
+    <button id='magic-btn'>Click for Magic</button>
+</div>"></textarea>
+                    
+                    <textarea id="css-input" spellcheck="false" placeholder="/* Write CSS here */
+body { 
+    font-family: 'Inter', sans-serif; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    height: 100vh; 
+    background: #f0f2f5; 
+}
+.container { 
+    background: white; 
+    padding: 40px; 
+    border-radius: 20px; 
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1); 
+    text-align: center; 
+}
+button { 
+    background: #ffcc00; 
+    border: none; 
+    padding: 12px 30px; 
+    border-radius: 10px; 
+    font-weight: bold; 
+    cursor: pointer; 
+    transition: 0.3s;
+}
+button:hover { transform: scale(1.05); }"></textarea>
+                    
+                    <textarea id="js-input" spellcheck="false" placeholder="// Write JavaScript here
+document.getElementById('magic-btn').onclick = function() {
+    alert('Code Execution Successful!');
+    this.style.background = '#eab308';
+    this.innerHTML = 'Magic Happened!';
+}"></textarea>
+                </div>
+            </div>
+
+            <div class="preview-side">
+                <div class="preview-header">
+                    <span class="live-label">
+                        <div class="live-dot"></div>
+                        Live Preview
+                    </span>
+                    <div class="header-actions">
+                        <button class="btn-action-icon" onclick="toggleFullScreen()" title="Full Screen Mode">
+                            <i data-lucide="maximize" style="width: 16px; height: 16px;"></i>
+                        </button>
+                        <button class="run-btn" onclick="executeCode()">
+                            <i data-lucide="play" style="width: 14px;"></i> Run Code
+                        </button>
+                    </div>
+                </div>
+                <iframe id="output-frame" title="Result Preview"></iframe>
+            </div>
+
+        </div>
+          <div class="section-divider"> </div>
+
+        <div style="max-width: 900px; margin: 0 auto 4rem auto; padding: 0 20px;">
+            <h2 style="color: var(--tool-yellow); font-size: 26px; font-weight: 800; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 12px;">
+                <i data-lucide="info" style="width: 28px; height: 28px;"></i> About HTML Compiler Online
+            </h2>
+            <p style="font-size: 17px; line-height: 1.8; opacity: 0.9; color: var(--text-main); text-align: left;">
+                Looking for an easy way to run HTML code online? Our HTML Compiler allows you to write and execute HTML, CSS, and JavaScript code instantly in your browser. 
+                This free HTML compiler provides a live preview, so you can see your output in real-time. No login or installation required — just write your code and run it instantly. 
+                Whether you're a beginner learning web development or a developer testing code, this HTML Compiler Online makes coding simple and fast.
+            </p>
+        </div>
+
+        <div class="seo-content-lazy" id="lazySeoSection">
+            <div style="max-width: 900px; margin: 40px auto; text-align: center;">
+            
+                <h2 style="color: var(--tool-yellow); margin-bottom: 40px; font-weight: 800;">Why Use This HTML Compiler?</h2>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-bottom: 60px;">
+                    <div style="background: var(--bg-secondary); padding: 25px; border-radius: 15px; border: 1px solid var(--card-border);">
+                        <div style="font-size: 30px; margin-bottom: 10px;">💻</div>
+                        <strong style="color: var(--text-main);">All-in-One Editor</strong>
+                        <p style="font-size: 13px; opacity: 0.7; margin-top: 5px;">Run HTML, CSS & JS in one place.</p>
+                    </div>
+                    <div style="background: var(--bg-secondary); padding: 25px; border-radius: 15px; border: 1px solid var(--card-border);">
+                        <div style="font-size: 30px; margin-bottom: 10px;">👁️</div>
+                        <strong style="color: var(--text-main);">Live Preview</strong>
+                        <p style="font-size: 13px; opacity: 0.7; margin-top: 5px;">See your output in real-time.</p>
+                    </div>
+                    <div style="background: var(--bg-secondary); padding: 25px; border-radius: 15px; border: 1px solid var(--card-border);">
+                        <div style="font-size: 30px; margin-bottom: 10px;">🛡️</div>
+                        <strong style="color: var(--text-main);">No Login Required</strong>
+                        <p style="font-size: 13px; opacity: 0.7; margin-top: 5px;">100% Free & instant access.</p>
+                    </div>
+                    <div style="background: var(--bg-secondary); padding: 25px; border-radius: 15px; border: 1px solid var(--card-border);">
+                        <div style="font-size: 30px; margin-bottom: 10px;">📱</div>
+                        <strong style="color: var(--text-main);">All Devices</strong>
+                        <p style="font-size: 13px; opacity: 0.7; margin-top: 5px;">Works on Mobile & Desktop.</p>
+                    </div>
+                </div>
+
+                <div style="background: var(--bg-secondary); padding: 40px; border-radius: 24px; border: 1px solid rgba(var(--tool-accent-rgb), 0.1); margin-bottom: 50px;">
+                    <h2 style="color: var(--tool-yellow); margin-bottom: 30px; font-weight: 800;">How to Run HTML Code Online</h2>
+                    <div style="text-align: left; max-width: 600px; margin: 0 auto;">
+                        <div style="margin-bottom: 15px; display: flex; gap: 15px; align-items: flex-start;">
+                            <span style="background: var(--tool-yellow); color: #000; padding: 2px 10px; border-radius: 5px; font-weight: 900;">1</span>
+                            <p style="color: var(--text-main);">Write or paste your HTML code in the editor.</p>
+                        </div>
+                        <div style="margin-bottom: 15px; display: flex; gap: 15px; align-items: flex-start;">
+                            <span style="background: var(--tool-yellow); color: #000; padding: 2px 10px; border-radius: 5px; font-weight: 900;">2</span>
+                            <p style="color: var(--text-main);">Switch tabs to add CSS styles and JavaScript logic.</p>
+                        </div>
+                        <div style="margin-bottom: 15px; display: flex; gap: 15px; align-items: flex-start;">
+                            <span style="background: var(--tool-yellow); color: #000; padding: 2px 10px; border-radius: 5px; font-weight: 900;">3</span>
+                            <p style="color: var(--text-main);">Click the <b>"Run Code"</b> button to execute.</p>
+                        </div>
+                        <div style="display: flex; gap: 15px; align-items: flex-start;">
+                            <span style="background: var(--tool-yellow); color: #000; padding: 2px 10px; border-radius: 5px; font-weight: 900;">4</span>
+                            <p style="color: var(--text-main);">Instantly see the live result in the preview window.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-bottom: 50px; text-align: left;">
+                    <div style="background: var(--bg-secondary); padding: 30px; border-radius: 20px; border: 1px solid var(--card-border);">
+                        <h3 style="color: var(--tool-yellow); margin-bottom: 15px; font-weight: 700;">💡 Benefits of Online Compiler</h3>
+                        <ul style="list-style: none; padding: 0; line-height: 2; color: var(--text-main); opacity: 0.9;">
+                            <li>• 🔹 <b>No Installation:</b> Code directly in browser.</li>
+                            <li>• 🔹 <b>Perfect for Beginners:</b> Easy to learn.</li>
+                            <li>• 🔹 <b>Fast Testing:</b> Debug snippets quickly.</li>
+                            <li>• 🔹 <b>Real-Time:</b> See UI changes instantly.</li>
+                        </ul>
+                    </div>
+                    <div style="background: var(--bg-secondary); padding: 30px; border-radius: 20px; border: 1px solid var(--card-border);">
+                        <h3 style="color: var(--tool-yellow); margin-bottom: 15px; font-weight: 700;">⚡ How It Works</h3>
+                        <p style="opacity: 0.8; line-height: 1.8; color: var(--text-main);">
+                            This HTML Compiler Online processes your HTML, CSS, and JavaScript code and renders it in a live preview window using a sandboxed environment. 
+                            All execution happens inside your browser, making it fast, secure, and highly efficient for testing code snippets.
+                        </p>
+                    </div>
+                </div>
+
+                <h2 style="color: var(--tool-yellow); margin-bottom: 30px; font-weight: 800;">Frequently Asked Questions</h2>
+                <div style="text-align: left; margin-bottom: 50px; display: flex; flex-direction: column; gap: 12px;">
+                    <details style="background: var(--bg-secondary); border-radius: 12px; border: 1px solid var(--card-border); overflow: hidden; cursor: pointer;">
+                        <summary style="padding: 20px; font-weight: 700; color: var(--tool-yellow); list-style: none; display: flex; justify-content: space-between;">
+                            Q1. Is this HTML Compiler free? <span style="opacity: 0.5;">▼</span>
+                        </summary>
+                        <div style="padding: 0 20px 20px; font-size: 14px; color: var(--text-main); opacity: 0.8;">
+                            Yes, it is completely free and requires no login or subscription.
+                        </div>
+                    </details>
+                    <details style="background: var(--bg-secondary); border-radius: 12px; border: 1px solid var(--card-border); overflow: hidden; cursor: pointer;">
+                        <summary style="padding: 20px; font-weight: 700; color: var(--tool-yellow); list-style: none; display: flex; justify-content: space-between;">
+                            Q2. Can I run CSS and JavaScript also? <span style="opacity: 0.5;">▼</span>
+                        </summary>
+                        <div style="padding: 0 20px 20px; font-size: 14px; color: var(--text-main); opacity: 0.8;">
+                            Yes, you can run HTML, CSS, and JavaScript together in one execution environment.
+                        </div>
+                    </details>
+                    <details style="background: var(--bg-secondary); border-radius: 12px; border: 1px solid var(--card-border); overflow: hidden; cursor: pointer;">
+                        <summary style="padding: 20px; font-weight: 700; color: var(--tool-yellow); list-style: none; display: flex; justify-content: space-between;">
+                            Q3. Do I need to install anything? <span style="opacity: 0.5;">▼</span>
+                        </summary>
+                        <div style="padding: 0 20px 20px; font-size: 14px; color: var(--text-main); opacity: 0.8;">
+                            No, everything runs 100% in your browser. No installation or setup is required.
+                        </div>
+                    </details>
+                    <details style="background: var(--bg-secondary); border-radius: 12px; border: 1px solid var(--card-border); overflow: hidden; cursor: pointer;">
+                        <summary style="padding: 20px; font-weight: 700; color: var(--tool-yellow); list-style: none; display: flex; justify-content: space-between;">
+                            Q4. Is it safe to use? <span style="opacity: 0.5;">▼</span>
+                        </summary>
+                        <div style="padding: 0 20px 20px; font-size: 14px; color: var(--text-main); opacity: 0.8;">
+                            Absolutely. Since the code runs locally in your browser, your data is never sent to our servers.
+                        </div>
+                    </details>
+                    <details style="background: var(--bg-secondary); border-radius: 12px; border: 1px solid var(--card-border); overflow: hidden; cursor: pointer;">
+                        <summary style="padding: 20px; font-weight: 700; color: var(--tool-yellow); list-style: none; display: flex; justify-content: space-between;">
+                            Q5. Can I use it on mobile? <span style="opacity: 0.5;">▼</span>
+                        </summary>
+                        <div style="padding: 0 20px 20px; font-size: 14px; color: var(--text-main); opacity: 0.8;">
+                            Yes, the compiler is fully responsive and optimized for mobile coding.
+                        </div>
+                    </details>
+                </div>
+            </div>
+        </div>
+        <div id="relatedBlogs"></div>
+    </main>
+
+    <footer></footer>
+
+    <script src="../../js/tools-data.js"></script>
+    <script src="../../js/blogs-data.js"></script>
+    <script src="../../js/script.js"></script>
+
+    <script>
+        lucide.createIcons();
+
+        // Switch between HTML, CSS, and JS tabs
+        function switchTab(evt, tabId) {
+            const tabs = document.getElementsByClassName("tab-btn");
+            for (let i = 0; i < tabs.length; i++) {
+                tabs[i].classList.remove("active");
+            }
+
+            const textareas = document.querySelectorAll(".code-area textarea");
+            textareas.forEach(ta => ta.classList.remove("active"));
+
+            evt.currentTarget.classList.add("active");
+            document.getElementById(tabId).classList.add("active");
+        }
+
+        // Compile and run the code inside the iframe
+        function executeCode() {
+            const htmlContent = document.getElementById("html-input").value;
+            const cssContent = "<style>" + document.getElementById("css-input").value + "</style>";
+            const jsContent = "<script>" + document.getElementById("js-input").value + "<\/script>";
+            
+            const frame = document.getElementById("output-frame").contentWindow.document;
+            
+            frame.open();
+            frame.write(htmlContent + cssContent + jsContent);
+            frame.close();
+        }
+
+        // Toggle Full Screen for the Preview Iframe
+        function toggleFullScreen() {
+            const frame = document.getElementById("output-frame");
+            if (!document.fullscreenElement) {
+                if (frame.requestFullscreen) {
+                    frame.requestFullscreen();
+                } else if (frame.webkitRequestFullscreen) { /* Safari */
+                    frame.webkitRequestFullscreen();
+                } else if (frame.msRequestFullscreen) { /* IE11 */
+                    frame.msRequestFullscreen();
+                }
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                }
+            }
+        }
+
+        // Execute default code on initial load
+        window.onload = () => {
+            executeCode();
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Merge PDF Online - Combine Multiple PDF Files Free | text2tool.in</title>
+    <meta name="description" content="Combine multiple PDF files into one document for free. Easy drag-and-drop reordering, secure local processing, and high-quality merging at text2tool.in.">
+    
+    <link rel="stylesheet" href="../../style.css">
+    <link rel="stylesheet" href="../tool-style.css">
+    <script src="../../js/favicon.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@700&display=swap" rel="stylesheet">
+
+    <style>
+        :root { --brand-red: #ef4444; --brand-red-dark: #dc2626; --brand-red-light: rgba(239, 68, 68, 0.05); }
+        
+        .tool-icon-circle { width: 80px; height: 80px; background: var(--brand-red-light); border-radius: 20px; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; border: 2px solid rgba(239, 68, 68, 0.2); color: var(--brand-red); font-size: 40px; }
+        
+        .shining-title { font-size: clamp(24px, 5vw, 36px); font-weight: 800; color: var(--brand-red); text-transform: uppercase; animation: glow 3s infinite ease-in-out; display: inline-block; }
+        @keyframes glow { 0%, 100% { text-shadow: 0 0 5px rgba(239, 68, 68, 0.2); } 50% { text-shadow: 0 0 20px rgba(239, 68, 68, 0.4); } }
+        .shining-line { border: 0; height: 3px; background: linear-gradient(90deg, transparent, var(--brand-red), transparent); width: 150px; margin: 20px auto; }
+        
+        .upload-area-red { border: 2px dashed var(--brand-red) !important; background: var(--brand-red-light) !important; padding: 40px; text-align: center; cursor: pointer; border-radius: 20px; transition: 0.3s; margin-bottom: 20px; }
+
+        .workspace-grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: 25px; margin-top: 30px; }
+        .controls-card { background: var(--bg-secondary); padding: 25px; border-radius: 15px; border: 1px solid var(--card-border); text-align: left; height: fit-content; }
+        
+        /* File List Styles */
+        .file-list { display: flex; flex-direction: column; gap: 12px; background: var(--bg-secondary); padding: 20px; border-radius: 15px; border: 1px solid var(--card-border); min-height: 400px; }
+        .file-item { display: flex; align-items: center; justify-content: space-between; background: var(--card-bg); padding: 12px 15px; border-radius: 10px; border: 1px solid var(--card-border); transition: 0.2s; cursor: grab; }
+        .file-item:active { cursor: grabbing; border-color: var(--brand-red); }
+        .file-info { display: flex; align-items: center; gap: 12px; overflow: hidden; }
+        .file-name { font-size: 14px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 200px; }
+        
+        .remove-btn { background: none; border: none; color: #999; cursor: pointer; padding: 5px; transition: 0.2s; }
+        .remove-btn:hover { color: var(--brand-red); }
+
+        .btn-red { width: 100%; background: var(--brand-red); color: white; padding: 15px; border: none; border-radius: 12px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; transition: 0.3s; margin-bottom: 10px; font-size: 1rem; }
+        .btn-red:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        .loading-line-container { width: 100%; height: 5px; background: var(--card-border); border-radius: 10px; margin: 20px 0; display: none; overflow: hidden; }
+        .loading-line-fill { height: 100%; background: var(--brand-red); width: 0%; transition: 0.4s ease; box-shadow: 0 0 10px var(--brand-red); }
+
+        @media (max-width: 900px) { .workspace-grid { grid-template-columns: 1fr; } }
+        .section-divider { border-top: 2px solid rgba(239, 68, 68, 0.3); padding: 40px 0; margin-top: 40px; }
+    </style>
+</head>
+<body class="color-pdf">
+    <header></header>
+
+    <main class="tool-container">
+        <div style="text-align: center; margin-bottom: 2rem;">
+            <div class="tool-icon-circle">
+                <i data-lucide="combine"></i>
+            </div>
+            <h2 style="font-size: 26px; font-weight: 700; margin-top: 1rem;">
+                Free <span class="shining-title">Merge PDF</span> Online
+            </h2>
+            <p style="font-size: 18px; opacity: 0.8; font-weight: 500; margin-top: 15px;">
+                Combine multiple PDFs into one document at text2tool.in
+            </p>
+            <div class="shining-line"></div>
+        </div>
+
+        <div class="workspace-grid">
+            <aside class="controls-card">
+                <div style="margin-bottom: 20px;">
+                    <label style="display:block; font-weight:600; margin-bottom:12px; font-size: 1.1rem;">📂 Step 1: Select Files</label>
+                    <div class="upload-area-red" onclick="document.getElementById('fileInput').click()">
+                        <div style="font-size: 40px; margin-bottom: 10px;">➕</div>
+                        <p id="fileNameDisplay" style="font-weight: 600; font-size: 1rem;">Add PDF Files</p>
+                        <input type="file" id="fileInput" accept=".pdf" multiple style="display: none;">
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 25px;">
+                    <p style="font-size: 0.85rem; opacity: 0.7; font-style: italic;">*You can upload multiple files at once. Drag them to reorder.</p>
+                </div>
+
+                <button id="mergeBtn" class="btn-red" disabled>🚀 Merge PDFs Now</button>
+
+                <div class="loading-line-container" id="loadingLineWrapper">
+                    <div class="loading-line-fill" id="loadingLine"></div>
+                </div>
+                <p id="statusText" style="text-align: center; font-size: 13px; font-weight: 700; color: var(--brand-red); display: none;"></p>
+            </aside>
+
+            <section>
+                <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 15px;">📄 File Sequence</h3>
+                <div class="file-list" id="fileList">
+                    <p id="emptyMsg" style="text-align: center; opacity: 0.5; padding-top: 150px;">Upload PDF files to start merging...</p>
+                </div>
+            </section>
+        </div>
+
+        <div style="width: 100%; margin: 60px auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 30px; text-align: center;">
+            <div><div style="font-size: 35px; margin-bottom: 10px;">⚡</div><h3>Fast Merging</h3><p style="opacity: 0.8; font-size: 14px;">Instant combination of files directly in your browser.</p></div>
+            <div><div style="font-size: 35px; margin-bottom: 10px;">🔄</div><h3>Drag & Drop</h3><p style="opacity: 0.8; font-size: 14px;">Easily change the order of files before merging.</p></div>
+            <div><div style="font-size: 35px; margin-bottom: 10px;">🛡️</div><h3>High Security</h3><p style="opacity: 0.8; font-size: 14px;">Files are processed locally. Your data never leaves your device.</p></div>
+            <div><div style="font-size: 35px; margin-bottom: 10px;">💎</div><h3>Pro Quality</h3><p style="opacity: 0.8; font-size: 14px;">Maintains original resolution and formatting perfectly.</p></div>
+        </div>
+
+        <div class="section-divider">
+            <h2 style="font-size: 28px; font-weight: 700; margin-bottom: 20px;">Professional PDF Merger by text2tool.in</h2>
+            <p style="font-size: 18px; line-height: 1.7; opacity: 0.8;">Managing multiple PDF documents can be overwhelming. At text2tool.in, we provide a seamless solution to combine your files into a single, organized document. Our <b>Merge PDF</b> tool is designed for speed and security. You can upload as many files as you want, rearrange them with a simple drag-and-drop interface, and download the final version in seconds. Best of all, we prioritize your privacy by processing everything locally in your browser.</p>
+        </div>
+
+        <div class="section-divider">
+            <div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 30px; text-align: left;">
+                <div class="info-column" style="flex:1; min-width:250px;"><h3>Perfect Reordering</h3><p>Ensure your documents are in the exact sequence you need. Just drag the file cards to swap positions before hitting the merge button.</p></div>
+                <div class="info-column" style="flex:1; min-width:250px;"><h3>Privacy First</h3><p>Unlike other online tools, text2tool.in doesn't store your documents on any server. Your files stay on your machine throughout the process.</p></div>
+                <div class="info-column" style="flex:1; min-width:250px;"><h3>Zero Cost, Zero Limits</h3><p>Combine your files without any hidden charges or page limits. It is truly free and unlimited for all users.</p></div>
+            </div>
+        </div>
+
+        <section class="faq-section section-divider">
+            <h2 class="section-title">Frequently Asked Questions</h2>
+            <div class="faq-item">
+                <button class="faq-question">How many files can I merge at once? ⚡</button>
+                <div class="faq-answer">There is no hard limit on text2tool.in. However, merging very large files (e.g., hundreds of pages) depends on your device's memory.</div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question">Will the quality of my PDFs decrease? 💎</button>
+                <div class="faq-answer">No. Our merging engine preserves the original quality, text, and images exactly as they were in the source files.</div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question">Can I use this on my mobile phone? 📱</button>
+                <div class="faq-answer">Yes! This tool is fully responsive and works perfectly on Android, iPhone, and tablets via any modern browser.</div>
+            </div>
+        </section>
+
+        <div id="relatedBlogs"></div>
+    </main>
+
+    <footer></footer>
+
+    <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+    <script src="../../js/tools-data.js"></script>
+    <script src="../../js/blogs-data.js"></script>
+    <script src="../../js/script.js"></script>
+    
+    <script>
+        const fileInput = document.getElementById('fileInput');
+        const mergeBtn = document.getElementById('mergeBtn');
+        const fileListContainer = document.getElementById('fileList');
+        const loadingLineWrapper = document.getElementById('loadingLineWrapper');
+        const loadingLine = document.getElementById('loadingLine');
+        const statusText = document.getElementById('statusText');
+
+        let fileArray = [];
+
+        fileInput.onchange = (e) => {
+            const selectedFiles = Array.from(e.target.files);
+            selectedFiles.forEach(file => {
+                if (file.type === 'application/pdf') {
+                    fileArray.push(file);
+                }
+            });
+            renderFileList();
+            fileInput.value = ''; // Reset for same file re-upload if needed
+        };
+
+        function renderFileList() {
+            if (fileArray.length === 0) {
+                fileListContainer.innerHTML = '<p id="emptyMsg" style="text-align: center; opacity: 0.5; padding-top: 150px;">Upload PDF files to start merging...</p>';
+                mergeBtn.disabled = true;
+                return;
+            }
+
+            fileListContainer.innerHTML = '';
+            mergeBtn.disabled = fileArray.length < 2;
+
+            fileArray.forEach((file, index) => {
+                const item = document.createElement('div');
+                item.className = 'file-item';
+                item.draggable = true;
+                item.dataset.index = index;
+
+                item.innerHTML = `
+                    <div class="file-info">
+                        <span style="color: var(--brand-red); font-weight: bold;">${index + 1}</span>
+                        <span class="file-name">${file.name}</span>
+                        <span style="font-size: 11px; opacity: 0.5;">(${(file.size / 1024 / 1024).toFixed(2)} MB)</span>
+                    </div>
+                    <button class="remove-btn" onclick="removeFile(${index})">
+                        <i data-lucide="trash-2" style="width:18px;"></i>
+                    </button>
+                `;
+
+                // Drag and Drop Logic
+                item.addEventListener('dragstart', (e) => e.dataTransfer.setData('text/plain', index));
+                item.addEventListener('dragover', (e) => e.preventDefault());
+                item.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    const fromIndex = e.dataTransfer.getData('text/plain');
+                    const toIndex = index;
+                    moveFile(fromIndex, toIndex);
+                });
+
+                fileListContainer.appendChild(item);
+            });
+            if(window.lucide) lucide.createIcons();
+        }
+
+        window.removeFile = (index) => {
+            fileArray.splice(index, 1);
+            renderFileList();
+        };
+
+        function moveFile(from, to) {
+            const item = fileArray.splice(from, 1)[0];
+            fileArray.splice(to, 0, item);
+            renderFileList();
+        }
+
+        mergeBtn.onclick = async () => {
+            mergeBtn.disabled = true;
+            loadingLineWrapper.style.display = 'block';
+            statusText.style.display = 'block';
+            statusText.innerText = "Merging Files...";
+            loadingLine.style.width = "30%";
+
+            try {
+                const mergedPdf = await PDFLib.PDFDocument.create();
+
+                for (let i = 0; i < fileArray.length; i++) {
+                    const progress = 30 + ((i + 1) / fileArray.length) * 60;
+                    loadingLine.style.width = progress + "%";
+                    
+                    const file = fileArray[i];
+                    const bytes = await file.arrayBuffer();
+                    const pdf = await PDFLib.PDFDocument.load(bytes);
+                    const copiedPages = await mergedPdf.copyPages(pdf, pdf.getPageIndices());
+                    copiedPages.forEach((page) => mergedPdf.addPage(page));
+                }
+
+                const mergedPdfBytes = await mergedPdf.save();
+                const blob = new Blob([mergedPdfBytes], { type: 'application/pdf' });
+                const url = URL.createObjectURL(blob);
+                
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = `text2tool.in_merged_document.pdf`;
+                link.click();
+
+                loadingLine.style.width = "100%";
+                statusText.innerText = "Success! PDF Merged.";
+                setTimeout(() => {
+                    loadingLineWrapper.style.display = 'none';
+                    statusText.style.display = 'none';
+                    mergeBtn.disabled = false;
+                }, 3000);
+
+            } catch (err) {
+                alert("Error merging PDFs: " + err.message);
+                mergeBtn.disabled = false;
+                loadingLineWrapper.style.display = 'none';
+            }
+        };
+
+        window.onload = () => { if(window.lucide) lucide.createIcons(); };
+    </script>
+</body>
+</html>

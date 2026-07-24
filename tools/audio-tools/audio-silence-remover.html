@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Audio Silence Remover Online Free – Remove Silence from Audio (MP3, WAV) Instantly</title>
+    <meta name="description" content="Remove silence from audio online free. Automatically cut silent parts from MP3 & WAV files using smart detection. Fast, secure, no upload, instant preview & download.">
+    <link rel="canonical" href="https://text2tool.in/tools/audio-tools/audio-silence-remover">
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Audio Silence Remover Online Free",
+  "url": "https://text2tool.in/tools/audio-tools/audio-silence-remover",
+  "description": "Remove silence from audio online free. Automatically cut silent parts from MP3 & WAV files using smart detection. Fast, secure, no upload, instant preview & download.",
+  "applicationCategory": "MultimediaApplication",
+  "operatingSystem": "Web",
+  "browserRequirements": "Requires JavaScript",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "featureList": [
+    "Remove silence from audio automatically",
+    "Supports MP3 and WAV files",
+    "Adjustable dB silence threshold",
+    "Minimum silence duration control",
+    "Waveform preview before download",
+    "Instant processing in browser",
+    "No upload and complete privacy"
+  ]
+}
+</script>
+        <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How to remove silence from audio automatically?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Upload your audio, set the silence threshold (dB), and click process. The tool will automatically detect and remove silent parts from your file."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the best dB setting for silence removal?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "For voice recordings, -35dB to -45dB works best. Lower values detect more silence, while higher values keep softer sounds."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does this tool reduce audio quality?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. The tool only removes silent parts without affecting the original sound quality."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I remove silence from MP3 and WAV files?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, this tool supports both MP3 and WAV audio formats."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is my audio uploaded to a server?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. Everything runs in your browser, so your audio stays private and secure."
+      }
+    }
+  ]
+}
+</script>
+        <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://text2tool.in/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Audio Silence Remover",
+      "item": "https://text2tool.in/tools/audio-tools/audio-silence-remover"
+    }
+  ]
+}
+</script>
+    <link rel="stylesheet" href="../../style.css">
+    <link rel="stylesheet" href="../tool-style.css">
+    <script src="../../js/favicon.js"></script>
+    <script src="https://unpkg.com/wavesurfer.js"></script>
+    <script src="https://unpkg.com/wavesurfer.js/dist/plugins/regions.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@700&display=swap" rel="stylesheet">
+
+    <style>
+        :root { 
+            --brand-accent: #10b981; 
+            --accent-rgb: 16, 185, 129;
+        }
+
+        .shining-title { font-size: clamp(24px, 5vw, 36px); font-weight: 800; color: var(--brand-accent); text-transform: uppercase; animation: glow 3s infinite ease-in-out; display: inline-block; }
+        @keyframes glow { 0%, 100% { text-shadow: 0 0 5px rgba(var(--accent-rgb), 0.2); } 50% { text-shadow: 0 0 20px rgba(var(--accent-rgb), 0.4); } }
+        .shining-line { border: 0; height: 3px; background: linear-gradient(90deg, transparent, var(--brand-accent), transparent); width: 150px; margin: 20px auto; }
+
+        .upload-card { background: var(--card-bg, #1e293b); border: 2px dashed var(--brand-accent); border-radius: 16px; padding: 40px; text-align: center; cursor: pointer; transition: 0.3s; color: var(--text-main); }
+        .upload-card:hover { background: rgba(var(--accent-rgb), 0.05); }
+        
+        #waveform { background: #000; border-radius: 12px; margin: 15px 0; min-height: 80px; overflow: hidden; width: 100%; }
+        
+        .options-panel { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 20px; text-align: left; }
+        
+        .option-box { 
+            background: var(--card-bg, rgba(255,255,255,0.03)); 
+            padding: 15px; 
+            border-radius: 10px; 
+            border: 1px solid rgba(16, 185, 129, 0.2); 
+            color: var(--text-main); 
+        }
+        
+        .option-box label { 
+            display: flex; 
+            justify-content: space-between; 
+            font-size: 13px; 
+            font-weight: 600; 
+            margin-bottom: 8px; 
+            color: var(--text-main); 
+        }
+        
+        input[type="range"] { width: 100%; accent-color: var(--brand-accent); }
+        
+        input[type="text"], input[type="number"], select { 
+            width: 100%; padding: 8px; border-radius: 6px; 
+            background: var(--input-bg, #ffffff); 
+            border: 1px solid rgba(16, 185, 129, 0.3); 
+            color: var(--brand-accent) !important; 
+            font-weight: 700;
+        }
+
+        select option {
+            color: var(--brand-accent);
+            background: var(--input-bg, #ffffff);
+        }
+
+        .btn-action { background: var(--brand-accent); color: white; border: none; padding: 14px; border-radius: 10px; font-weight: 700; cursor: pointer; width: 100%; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 20px; }
+        .btn-action:disabled { opacity: 0.4; }
+        
+        #preview-box { display: none; background: var(--card-bg, #1e293b); border: 2px solid var(--brand-accent); padding: 20px; border-radius: 12px; margin-top: 25px; color: var(--text-main); }
+        .status-badge { background: rgba(var(--accent-rgb), 0.1); color: var(--brand-accent); padding: 5px 12px; border-radius: 20px; font-size: 12px; display: inline-block; margin-bottom: 10px; border: 1px solid var(--brand-accent); }
+        #fileNameDisplay { color: var(--brand-accent); font-weight: 700; margin-top: 10px; display: block; word-break: break-all; }
+
+        /* SEO Section Styling */
+        .seo-card { background: var(--card-bg, #1e293b); border: 1px solid var(--card-border, rgba(16, 185, 129, 0.2)); padding: 2rem; border-radius: 16px; margin-top: 3rem; text-align: left; }
+        .feature-icon-box { background: rgba(var(--accent-rgb), 0.1); color: var(--brand-accent); width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-bottom: 15px; }
+    </style>
+</head>
+
+<body class="color-audio"> <header></header> <main class="tool-container">
+        
+        <div style="text-align: center; margin-bottom: 3rem;">
+            <div class="upload-icon">
+                <i data-lucide="volume-x" style="width: 64px; height: 64px; color: var(--brand-accent);"></i>
+            </div>
+            <h1 style="font-size: clamp(24px, 5vw, 32px); font-weight: 800; margin-top: 1rem;">
+                Free Audio <span class="shining-title">Silence Remover</span>
+            </h1>
+            <p style="font-size: 18px; opacity: 0.8; font-weight: 500; margin-top: 15px;">
+                Remove Silent Parts Instantly
+            </p>
+            <div class="shining-line"></div>
+        </div>
+
+        <div class="tool-grid" style="display: block;">
+            <div class="upload-card" id="dropZone">
+                <input type="file" id="audioInput" accept="audio/mp3,audio/wav,audio/mpeg,audio/x-m4a,audio/*" hidden>
+                <i data-lucide="file-audio" style="width: 40px; height: 40px; color: var(--brand-accent); margin-bottom: 10px;"></i>
+                <p id="uploadText">Drop your audio here or Click to upload</p>
+                <span id="fileNameDisplay"></span>
+            </div>
+
+            <div class="options-panel">
+                <div class="option-box">
+                    <label>Sensitivity: <span id="thresholdVal">-40dB</span></label>
+                    <input type="range" id="threshold" min="-60" max="-20" value="-40">
+                </div>
+                <div class="option-box">
+                    <label>Min Silence (sec)</label>
+                    <input type="number" id="minDuration" value="0.5" step="0.1">
+                </div>
+                <div class="option-box">
+                    <label>Export Format</label>
+                    <select id="fileFormat">
+                        <option value="wav">WAV (High Quality)</option>
+                        <option value="mp3">MP3 (Compressed)</option>
+                    </select>
+                </div>
+                <div class="option-box">
+                    <label>Filename</label>
+                    <input type="text" id="fileName" value="text2tool.in-audio">
+                </div>
+            </div>
+
+            <button id="processBtn" class="btn-action" disabled>
+                <i data-lucide="search"></i> Detect & Process Silence
+            </button>
+
+            <div id="preview-box">
+                <div id="detectionInfo" class="status-badge">0 Silent parts detected</div>
+                <div id="waveform"></div>
+                <audio id="audioPreview" controls style="width: 100%; margin-bottom: 15px;"></audio>
+                <button id="downloadBtn" class="btn-action" style="background: #059669;">
+                    <i data-lucide="download"></i> Download Processed Audio
+                </button>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 2rem;">
+            <a href="../../index" style="display: inline-flex; align-items: center; gap: 0.5rem; color: var(--brand-accent); font-weight: 700; text-decoration:none;">
+                <i data-lucide="arrow-left" style="width: 16px; height: 16px;"></i> Back to Home
+            </a>
+        </div>
+
+        <div class="seo-card">
+            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 1rem;">
+                <div class="feature-icon-box"><i data-lucide="info"></i></div>
+                <h2 style="font-size: 22px; font-weight: 800; margin: 0; color: var(--text-main);">What is Audio Silence Remover?</h2>
+            </div>
+            <p style="font-size: 16px; line-height: 1.7; opacity: 0.9; margin: 0; color: var(--text-main);">
+                    Tired of manually cutting silent gaps from your recordings? This <strong>Audio Silence Remover Online</strong> automatically detects and removes silent parts from your audio in seconds.
+
+            Whether you're editing a <strong>podcast, voice recording, lecture, interview, or YouTube audio</strong>, this tool helps you <strong>trim silence, reduce dead air, and improve listening quality</strong> instantly.
+
+            It works directly in your browser — meaning <strong>no upload, no waiting, and complete privacy</strong>. Just upload your audio file, adjust sensitivity, and let the tool automatically clean your audio.
+            </p>
+        </div>
+
+                <div style="margin-top: 3rem;">
+            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 1.5rem;">
+                <div class="feature-icon-box"><i data-lucide="zap"></i></div>
+                <h2 style="font-size: 22px; font-weight: 800; margin: 0; color: var(--text-main);">Why Use This Audio Silence Remover?</h2>
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px;">
+                <div style="display: flex; align-items: center; gap: 12px; background: var(--bg-secondary); padding: 15px; border-radius: 12px; border: 1px solid var(--card-border, rgba(16, 185, 129, 0.2));">
+                    <i data-lucide="check-circle-2" style="color: var(--brand-accent); width: 20px;"></i>
+                    <span style="font-size: 15px; color: var(--text-main);"><strong>Auto Detect</strong> – Detect and cut silent gaps automatically</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 12px; background: var(--bg-secondary); padding: 15px; border-radius: 12px; border: 1px solid var(--card-border, rgba(16, 185, 129, 0.2));">
+                    <i data-lucide="cpu" style="color: var(--brand-accent); width: 20px;"></i>
+                    <span style="font-size: 15px; color: var(--text-main);"><strong>AI-Based</strong> – Silence detection</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 12px; background: var(--bg-secondary); padding: 15px; border-radius: 12px; border: 1px solid var(--card-border, rgba(16, 185, 129, 0.2));">
+                    <i data-lucide="activity" style="color: var(--brand-accent); width: 20px;"></i>
+                    <span style="font-size: 15px; color: var(--text-main);"><strong>Waveform Preview</strong>– See exactly what gets removed</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 12px; background: var(--bg-secondary); padding: 15px; border-radius: 12px; border: 1px solid var(--card-border, rgba(16, 185, 129, 0.2));">
+                    <i data-lucide="sliders" style="color: var(--brand-accent); width: 20px;"></i>
+                    <span style="font-size: 15px; color: var(--text-main);"><strong>Smart dB Detection</strong> – Control silence threshold precisely</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 12px; background: var(--bg-secondary); padding: 15px; border-radius: 12px; border: 1px solid var(--card-border, rgba(16, 185, 129, 0.2));">
+                    <i data-lucide="file-output" style="color: var(--brand-accent); width: 20px;"></i>
+                    <span style="font-size: 15px; color: var(--text-main);"><strong>WAV & MP3</strong> – Works with all major formats</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 12px; background: var(--bg-secondary); padding: 15px; border-radius: 12px; border: 1px solid var(--card-border, rgba(16, 185, 129, 0.2));">
+                    <i data-lucide="infinity" style="color: var(--brand-accent); width: 20px;"></i>
+                    <span style="font-size: 15px; color: var(--text-main);"><strong>Unlimited</strong> – Free usage always</span>
+                </div>
+            </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-top: 3rem;">
+                    <div>
+            <h2 style="font-size: 22px; font-weight: 800; margin-bottom: 1.5rem; color: var(--text-main);">How to Use</h2>
+            <div style="display: flex; flex-direction: column; gap: 12px; color: var(--text-main);">
+                <div style="display: flex; align-items: center; gap: 12px;"><b style="color: var(--brand-accent);">01.</b> Upload your audio file (MP3 or WAV)</div>
+                <div style="display: flex; align-items: center; gap: 12px;"><b style="color: var(--brand-accent);">02.</b> Adjust silence threshold (dB) – lower value = more silence detected</div>
+                <div style="display: flex; align-items: center; gap: 12px;"><b style="color: var(--brand-accent);">03.</b> Set minimum silence duration (e.g. 0.5s to ignore small gaps)</div>
+                <div style="display: flex; align-items: center; gap: 12px;"><b style="color: var(--brand-accent);">04.</b> Preview cleaned audio and download instantly</div>
+                
+                <div style="margin-top: 10px; padding: 12px; background: rgba(var(--accent-rgb), 0.05); border-radius: 8px; border-left: 4px solid var(--brand-accent); font-size: 14px;">
+                    <strong>💡 Tip:</strong> Use -35dB to -45dB for normal voice recordings.
+                </div>
+            </div>
+        </div>
+
+                <div>
+                <h2 style="font-size: 22px; font-weight: 800; margin-bottom: 1.5rem; color: var(--text-main);">Common Use Cases</h2>
+                <ul style="list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: 10px;">
+                    <li style="background: var(--bg-secondary); border: 1px solid var(--card-border); padding: 6px 16px; border-radius: 20px; font-size: 13px; color: var(--text-main); font-weight: 600;">🎙️ Podcast editing – remove pauses and dead air</li>
+                    <li style="background: var(--bg-secondary); border: 1px solid var(--card-border); padding: 6px 16px; border-radius: 20px; font-size: 13px; color: var(--text-main); font-weight: 600;">🎧 YouTube voiceovers – make content more engaging</li>
+                    <li style="background: var(--bg-secondary); border: 1px solid var(--card-border); padding: 6px 16px; border-radius: 20px; font-size: 13px; color: var(--text-main); font-weight: 600;">📚 Lecture recordings – clean long silent gaps</li>
+                    <li style="background: var(--bg-secondary); border: 1px solid var(--card-border); padding: 6px 16px; border-radius: 20px; font-size: 13px; color: var(--text-main); font-weight: 600;">📞 Call recordings – remove unnecessary silence</li>
+                </ul>
+            </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-top: 3rem;">
+            <div style="padding: 20px; background: var(--bg-secondary); border-radius: 15px; border: 1px solid var(--card-border, rgba(16, 185, 129, 0.2)); border-left: 5px solid var(--brand-accent);">
+                <h2 style="font-size: 20px; font-weight: 800; margin-bottom: 10px; color: var(--text-main); display: flex; align-items: center; gap: 10px;">
+                    <i data-lucide="layers" style="width: 20px;"></i> Advanced Features
+                </h2>
+                <p style="font-size: 14px; opacity: 0.8; color: var(--text-main);">This tool highlights silent regions visually using dB thresholds, ensuring you only keep meaningful audio for interviews and voiceovers.</p>
+            </div>
+            <div style="padding: 20px; background: var(--bg-secondary); border-radius: 15px; border: 1px solid var(--card-border, rgba(16, 185, 129, 0.2)); border-left: 5px solid var(--brand-accent);">
+                <h2 style="font-size: 20px; font-weight: 800; margin-bottom: 10px; color: var(--text-main); display: flex; align-items: center; gap: 10px;">
+                    <i data-lucide="sparkles" style="width: 20px;"></i> Future Scope
+                </h2>
+                <p style="font-size: 14px; opacity: 0.8; color: var(--text-main);">We are working on AI voice enhancement, noise reduction, and video silence removal for an all-in-one editing platform.</p>
+            </div>
+        </div>
+
+        <div style="margin-top: 3rem; margin-bottom: 2rem;">
+            <h2 style="font-size: 24px; font-weight: 800; margin-bottom: 2rem; color: var(--text-main); text-align: center;">Frequently Asked Questions</h2>
+            <div style="display: grid; gap: 10px;">
+                <details style="background: var(--bg-secondary); padding: 15px; border-radius: 10px; border: 1px solid var(--card-border, rgba(16, 185, 129, 0.2)); cursor: pointer;">
+                    <summary style="font-weight: 700; color: var(--text-main);">How to remove silence from audio automatically?</summary>
+                    <p style="margin-top:10px; color:var(--text-main); opacity:0.8; font-size: 14px;">Upload your audio, set the silence threshold (dB), and click process. The tool will automatically detect and remove silent parts from your file.</p>
+                </details>
+                <details style="background: var(--bg-secondary); padding: 15px; border-radius: 10px; border: 1px solid var(--card-border, rgba(16, 185, 129, 0.2)); cursor: pointer;">
+                    <summary style="font-weight: 700; color: var(--text-main);">What is the best dB setting for silence removal?</summary>
+                    <p style="margin-top:10px; color:var(--text-main); opacity:0.8; font-size: 14px;">For voice recordings, -35dB to -45dB works best. Lower values detect more silence, while higher values keep softer sounds.</p>
+                </details>
+                <details style="background: var(--bg-secondary); padding: 15px; border-radius: 10px; border: 1px solid var(--card-border, rgba(16, 185, 129, 0.2)); cursor: pointer;">
+                    <summary style="font-weight: 700; color: var(--text-main);">Does this tool reduce audio quality?</summary>
+                    <p style="margin-top:10px; color:var(--text-main); opacity:0.8; font-size: 14px;">No. The tool only removes silent parts without affecting the original sound quality.</p>
+                </details>
+                <details style="background: var(--bg-secondary); padding: 15px; border-radius: 10px; border: 1px solid var(--card-border, rgba(16, 185, 129, 0.2)); cursor: pointer;">
+                    <summary style="font-weight: 700; color: var(--text-main);">Can I remove silence from MP3 and WAV files?</summary>
+                    <p style="margin-top:10px; color:var(--text-main); opacity:0.8; font-size: 14px;">Yes, this tool supports both MP3 and WAV audio formats.</p>
+                </details>
+                <details style="background: var(--bg-secondary); padding: 15px; border-radius: 10px; border: 1px solid var(--card-border, rgba(16, 185, 129, 0.2)); cursor: pointer;">
+                    <summary style="font-weight: 700; color: var(--text-main);">Is my audio uploaded to a server?</summary>
+                    <p style="margin-top:10px; color:var(--text-main); opacity:0.8; font-size: 14px;">No. Everything runs in your browser, so your audio stays private and secure.</p>
+                </details>
+            </div>
+        </div>
+                <div id="relatedBlogs"></div>
+    </main>
+
+    <footer></footer>
+    <script src="../../js/tools-data.js"></script>
+    <script src="../../js/blogs-data.js"></script>
+    <script src="../../js/script.js"></script>
+
+    <script>
+        lucide.createIcons();
+        
+        let ws, wsRegions, audioBuffer, processedBlob;
+        const dropZone = document.getElementById('dropZone');
+        const audioInput = document.getElementById('audioInput');
+        const processBtn = document.getElementById('processBtn');
+        const previewBox = document.getElementById('preview-box');
+        const thresholdInput = document.getElementById('threshold');
+        const thresholdVal = document.getElementById('thresholdVal');
+        const fileNameDisplay = document.getElementById('fileNameDisplay');
+        const uploadText = document.getElementById('uploadText');
+
+        thresholdInput.oninput = (e) => {
+            thresholdVal.innerText = e.target.value + "dB";
+        };
+
+        ws = WaveSurfer.create({
+            container: '#waveform',
+            waveColor: '#475569',
+            progressColor: '#10b981',
+            cursorColor: '#fff',
+            height: 80,
+            responsive: true
+        });
+
+        wsRegions = ws.registerPlugin(WaveSurfer.Regions.create());
+
+        dropZone.onclick = () => audioInput.click();
+        audioInput.onchange = (e) => handleFile(e.target.files[0]);
+
+        async function handleFile(file) {
+            if (!file) return;
+            fileNameDisplay.innerText = "Selected: " + file.name;
+            uploadText.innerText = "Audio Uploaded Successfully!";
+            ws.load(URL.createObjectURL(file));
+            const arrayBuffer = await file.arrayBuffer();
+            const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            audioBuffer = await audioCtx.decodeAudioData(arrayBuffer);
+            processBtn.disabled = false;
+        }
+
+        processBtn.onclick = async () => {
+            if (!audioBuffer) return;
+            previewBox.style.display = 'block';
+            wsRegions.clearRegions();
+            const threshold = Math.pow(10, thresholdInput.value / 20);
+            const minDur = parseFloat(document.getElementById('minDuration').value);
+            const rawData = audioBuffer.getChannelData(0);
+            const sampleRate = audioBuffer.sampleRate;
+            let silences = [];
+            let silenceStart = -1;
+
+            for (let i = 0; i < rawData.length; i += 2000) {
+                let amp = 0;
+                for(let j=0; j<2000 && i+j < rawData.length; j++) {
+                    amp = Math.max(amp, Math.abs(rawData[i+j]));
+                }
+                const time = i / sampleRate;
+                if (amp < threshold) {
+                    if (silenceStart === -1) silenceStart = time;
+                } else {
+                    if (silenceStart !== -1) {
+                        if (time - silenceStart >= minDur) {
+                            silences.push({start: silenceStart, end: time});
+                            wsRegions.addRegion({start: silenceStart, end: time, color: 'rgba(239, 68, 68, 0.4)', drag: false, resize: false});
+                        }
+                        silenceStart = -1;
+                    }
+                }
+            }
+            document.getElementById('detectionInfo').innerText = `${silences.length} Silent parts detected`;
+            let speechSegments = [];
+            let lastPos = 0;
+            silences.forEach(s => {
+                if (s.start > lastPos) { speechSegments.push({start: lastPos * sampleRate, end: s.start * sampleRate}); }
+                lastPos = s.end;
+            });
+            if (lastPos < audioBuffer.duration) { speechSegments.push({start: lastPos * sampleRate, end: audioBuffer.length}); }
+            const totalLen = speechSegments.reduce((acc, seg) => acc + (seg.end - seg.start), 0);
+            const newBuffer = new AudioContext().createBuffer(audioBuffer.numberOfChannels, Math.floor(totalLen), sampleRate);
+            for (let ch = 0; ch < audioBuffer.numberOfChannels; ch++) {
+                const oldD = audioBuffer.getChannelData(ch);
+                const newD = newBuffer.getChannelData(ch);
+                let offset = 0;
+                speechSegments.forEach(seg => {
+                    const cut = oldD.slice(Math.floor(seg.start), Math.floor(seg.end));
+                    newD.set(cut, offset);
+                    offset += cut.length;
+                });
+            }
+            processedBlob = bufferToWav(newBuffer);
+            document.getElementById('audioPreview').src = URL.createObjectURL(processedBlob);
+            previewBox.scrollIntoView({behavior: 'smooth'});
+        };
+
+        document.getElementById('downloadBtn').onclick = () => {
+            const ext = document.getElementById('fileFormat').value;
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(processedBlob);
+            link.download = `${document.getElementById('fileName').value}.${ext}`;
+            link.click();
+        };
+
+        function bufferToWav(abuffer) {
+            let n = abuffer.numberOfChannels, len = abuffer.length * n * 2 + 44,
+                buf = new ArrayBuffer(len), view = new DataView(buf),
+                chans = [], i, s, offset = 0, pos = 0;
+            function set32(d) { view.setUint32(pos, d, true); pos += 4; }
+            function set16(d) { view.setUint16(pos, d, true); pos += 2; }
+            set32(0x46464952); set32(len - 8); set32(0x45564157);
+            set32(0x20746d66); set32(16); set16(1); set16(n);
+            set32(abuffer.sampleRate); set32(abuffer.sampleRate * 2 * n);
+            set16(n * 2); set16(16); set32(0x61746164); set32(len - pos - 4);
+            for(i = 0; i < n; i++) chans.push(abuffer.getChannelData(i));
+            while(pos < len) {
+                for(i = 0; i < n; i++) {
+                    s = Math.max(-1, Math.min(1, chans[i][offset]));
+                    s = s < 0 ? s * 32768 : s * 32767;
+                    view.setInt16(pos, s, true); pos += 2;
+                }
+                offset++;
+            }
+            return new Blob([buf], {type: "audio/wav"});
+        }
+
+        renderRelatedBlogs('silent-audio-remover');
+    </script>
+</body>
+</html>

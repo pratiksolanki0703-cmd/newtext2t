@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Audio to Text Converter (Free Online) – Convert MP3, M4A & Voice to Text</title>
+    <meta name="description" content="Convert audio to text online for free. Transcribe MP3, M4A, and voice recordings into accurate text instantly. Fast, secure, and easy-to-use AI transcription tool.">
+    <link rel="canonical" href="https://text2tool.in/tools/audio-tools/audio-to-text">
+    
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Audio to Text Converter",
+  "url": "https://text2tool.in/tools/audio-tools/audio-to-text",
+  "description": "Free online audio to text converter. Transcribe MP3, WAV, M4A, and voice recordings into accurate text instantly with no login required.",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "Web",
+  "browserRequirements": "Requires JavaScript",
+  "softwareVersion": "1.0",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "featureList": [
+    "Convert audio to text",
+    "Supports MP3, WAV, M4A",
+    "No login required",
+    "Auto language detection"
+  ]
+}
+</script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Can I convert audio to text for free?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, you can convert audio files into text using this tool for free."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Which audio formats are supported?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The tool supports common formats like MP3, WAV and M4A up to 25MB."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I need to create an account?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No, you can use the tool without signing up."
+          }
+        },
+        {
+      "@type": "Question",
+      "name": "Is the transcription accurate?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The accuracy depends on audio quality, but the tool is designed to provide reliable results for most audio files."
+            }
+        }
+      ]
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://text2tool.in/index"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Audio to Text",
+          "item": "https://text2tool.in/tools/audio-tools/audio-to-text"
+        }
+      ]
+    }
+    </script>
+
+    <link rel="stylesheet" href="../../style.css">
+    <link rel="stylesheet" href="../tool-style.css">
+    <script src="../../js/favicon.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@700&display=swap" rel="stylesheet">
+
+    <style>
+        :root { --brand-accent: #10b981; --accent-rgb: 16, 185, 129; }
+
+        .shining-title { font-size: clamp(24px, 5vw, 36px); font-weight: 800; color: var(--brand-accent); text-transform: uppercase; animation: glow 3s infinite ease-in-out; display: inline-block; }
+        @keyframes glow { 0%, 100% { text-shadow: 0 0 5px rgba(var(--accent-rgb), 0.2); } 50% { text-shadow: 0 0 20px rgba(var(--accent-rgb), 0.4); } }
+        .shining-line { border: 0; height: 3px; background: linear-gradient(90deg, transparent, var(--brand-accent), transparent); width: 150px; margin: 20px auto; }
+
+        .tool-grid { display: grid; grid-template-columns: 350px 1fr; gap: 24px; margin-top: 30px; }
+        .tts-side-controls, .tts-main-area { background: var(--bg-secondary); padding: 1.5rem; border-radius: 16px; border: 1px solid var(--card-border); box-shadow: 0 4px 24px rgba(0,0,0,0.05); }
+        
+        /* Dropzone matching Silence Remover */
+        .upload-card { border: 2px dashed var(--brand-accent); border-radius: 16px; padding: 30px 20px; text-align: center; cursor: pointer; transition: 0.3s; background: rgba(var(--accent-rgb), 0.03); margin-bottom: 20px; }
+        .upload-card:hover { background: rgba(var(--accent-rgb), 0.08); }
+        
+        .control-group { margin-bottom: 20px; text-align: left; }
+        .control-label { font-weight: 600; font-size: 13px; margin-bottom: 8px; display: block; color: var(--text-main); }
+
+        select, input[type="text"] { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--card-border); background: var(--bg-primary); color: var(--brand-accent) !important; font-weight: 700; outline: none; }
+
+        .btn-action { background: var(--brand-accent); color: white; border: none; padding: 15px; border-radius: 10px; font-weight: 700; cursor: pointer; width: 100%; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 16px; }
+        .btn-action:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        #progress-container { display: none; margin-top: 15px; text-align: center; }
+        .progress-bar-bg { width: 100%; height: 8px; background: rgba(var(--accent-rgb), 0.1); border-radius: 10px; overflow: hidden; }
+        .progress-bar-fill { width: 0%; height: 100%; background: var(--brand-accent); transition: width 0.3s; }
+        .progress-status-text { font-size: 12px; font-weight: 700; color: var(--brand-accent); margin-top: 5px; text-transform: uppercase; }
+
+        .result-wrapper { position: relative; margin-top: 10px; }
+        textarea#stt-output { width: 100%; height: 400px; padding: 1.25rem; border-radius: 12px; border: 1px solid var(--card-border); background: var(--bg-primary); color: var(--text-main); resize: none; font-size: 16px; line-height: 1.6; outline: none; transition: 0.3s; }
+        
+        .result-actions { position: absolute; top: 12px; right: 12px; display: flex; gap: 8px; }
+        .action-icon-btn { background: var(--bg-secondary); border: 1px solid var(--card-border); width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--text-secondary); cursor: pointer; transition: 0.2s; }
+        .action-icon-btn:hover { color: var(--brand-accent); border-color: var(--brand-accent); transform: translateY(-2px); }
+
+        .notice-box { background: rgba(var(--accent-rgb), 0.05); border-left: 4px solid var(--brand-accent); padding: 12px; border-radius: 8px; margin-top: 20px; font-size: 13px; display: flex; gap: 10px; align-items: flex-start; text-align: left; }
+
+        @media (max-width: 950px) { .tool-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+
+<body class="color-audio">
+    <header></header>
+
+    <main class="tool-container">
+        <div style="text-align: center; margin-bottom: 2.5rem;">
+            <div class="upload-icon"><i data-lucide="book-audio" style="width: 60px; height: 60px; color: var(--brand-accent);"></i></div>
+            <h1 style="font-size: clamp(24px, 5vw, 32px); font-weight: 800; margin-top: 1rem;">
+                Free <span class="shining-title">Audio to Text</span> Converter-No Login
+            </h1>
+            <div class="shining-line"></div>
+        </div>
+
+        <div class="tool-grid">
+            <div class="tts-side-controls">
+                <div class="control-group">
+                    <label class="control-label">Source Language</label>
+                    <select id="lang-select">
+                        <option value="auto">✨ Auto Detect Language</option>
+                        <option value="en">English</option>
+                        <option value="hi">Hindi (Standard)</option>
+                        <option value="es">Spanish</option>
+                        <option value="fr">French</option>
+                        <option value="de">German</option>
+                        <option value="it">Italian</option>
+                        <option value="pt">Portuguese</option>
+                        <option value="ja">Japanese</option>
+                        <option value="ko">Korean</option>
+                        <option value="tr">Turkish</option>
+<option value="nl">Dutch</option>
+<option value="id">Indonesian</option>
+<option value="vi">Vietnamese</option>
+<option value="th">Thai</option>
+<option value="ur">Urdu</option>
+<option value="bn">Bengali</option>
+<option value="pa">Punjabi</option>
+<option value="mr">Marathi</option>
+<option value="ta">Tamil</option>
+<option value="te">Telugu</option>
+                    </select>
+                </div>
+                
+                <div class="upload-card" id="dropZone" onclick="document.getElementById('audio-input').click()">
+                    <i data-lucide="upload-cloud" style="width: 36px; height: 36px; color: var(--brand-accent); margin-bottom: 10px;"></i>
+                    <p id="file-name" style="font-size:14px; font-weight:600;">Select Audio File</p>
+                    <p style="font-size: 11px; opacity: 0.7; margin-top: 5px;">Max 25MB • MP3, WAV, M4A</p>
+                    <input type="file" id="audio-input" hidden accept="audio/mp3,audio/wav,audio/mpeg,audio/x-m4a,audio/*" onchange="updateFileName()">
+                </div>
+
+                <button id="transcribe-btn" class="btn-action" onclick="handleTranscription()">
+                    <i data-lucide="zap"></i> Generate Transcription
+                </button>
+                
+                <div id="progress-container">
+                    <div class="progress-bar-bg"><div class="progress-bar-fill" id="pb-fill"></div></div>
+                    <div class="progress-status-text" id="pb-text">Ready to Process</div>
+                </div>
+                <div class="notice-box">
+    <i data-lucide="alert-circle" style="width:20px; flex-shrink:0; color: var(--brand-accent);"></i>
+    <div style="font-size: 13px; line-height: 1.5; color: var(--text-main);">
+        <strong>Note:</strong> Currently, Hindi audio is transcribed using Urdu script (though the content remains Hindi). You can easily convert it back to Hindi text using any AI. 
+        <br><br>
+        <strong>Pro Tip:</strong> If accuracy is low, manually select the <strong>Source Language</strong> instead of "Auto Detect" for 100% results. Choosing a different language will decrease transcription accuracy. </div>
+        </div>
+            </div>
+        <div class="tts-main-area" style="background: var(--bg-secondary); padding: 1.5rem; border-radius: 16px; border: 1px solid var(--card-border); box-shadow: 0 4px 24px rgba(0,0,0,0.05);">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+        <label style="font-weight: 700; font-size: 14px; color: var(--text-main);">Transcription Result</label>
+        <span id="lang-badge" style="font-size: 11px; font-weight: 800; color: white; background: var(--brand-accent); padding: 3px 10px; border-radius: 6px; display:none; text-transform: uppercase;"></span>
+    </div>
+    
+    <div class="result-wrapper" style="position: relative; background: var(--bg-primary); border-radius: 12px; border: 1px solid var(--card-border); overflow: hidden;">
+        <textarea id="stt-output" 
+            style="width: 100%; height: 400px; padding: 1.25rem; border: none; background: transparent; color: var(--text-main); resize: none; font-size: 16px; line-height: 1.6; outline: none;" 
+            placeholder="Transcription will appear here... Upload a file and click generate." 
+            readonly></textarea>
+        
+        <div class="result-actions" id="result-actions" style="position: absolute; top: 12px; right: 12px; display: none; gap: 8px;">
+            <button class="action-icon-btn" onclick="copyText()" title="Copy" style="background: var(--bg-secondary); border: 1px solid var(--card-border); width: 36px; height: 36px; border-radius: 8px; cursor: pointer; color: var(--text-secondary); display: flex; align-items: center; justify-content: center;">
+                <i data-lucide="copy" style="width:18px;"></i>
+            </button>
+            <button class="action-icon-btn" onclick="downloadText()" title="Download" style="background: var(--bg-secondary); border: 1px solid var(--card-border); width: 36px; height: 36px; border-radius: 8px; cursor: pointer; color: var(--text-secondary); display: flex; align-items: center; justify-content: center;">
+                <i data-lucide="download" style="width:18px;"></i>
+            </button>
+            </div>
+        </div>
+    </div>
+    </div>
+
+        <div class="section-divider"></div>
+                       <div class="seo-card" style="margin-top: 3rem;">
+            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 1rem;">
+                <div class="feature-icon-box"><i data-lucide="info"></i></div>
+                <h2 style="font-size: 22px; font-weight: 800; margin: 0; color: var(--text-main);">Free Audio to Text Converter</h2>
+            </div>
+            <p style="font-size: 16px; line-height: 1.7; opacity: 0.9; margin: 0; color: var(--text-main);">
+                Convert audio to text quickly and accurately with our free online tool. Whether you're working with voice recordings, MP3 files, or other audio formats, you can transcribe them into readable text in just a few clicks. The tool is designed to be simple, fast, and reliable, making it useful for students, professionals, and content creators alike.
+            </p>
+        </div>
+
+        <div style="margin-top: 3rem;">
+            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 1.5rem;">
+                <div class="feature-icon-box"><i data-lucide="zap"></i></div>
+                <h2 style="font-size: 22px; font-weight: 800; margin: 0; color: var(--text-main);">Transcribe Audio to Text Instantly</h2>
+            </div>
+            <p style="font-size: 16px; line-height: 1.7; opacity: 0.9; color: var(--text-main);">
+                Our audio to text converter allows you to upload your audio file and generate a transcript within seconds. It supports commonly used formats like MP3 and M4A, so you don’t need to worry about compatibility. The process is automatic and requires no technical knowledge. Just upload your file and let the tool handle the rest.
+            </p>
+        </div>
+
+        <div style="margin-top: 3rem;">
+            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 1.5rem;">
+                <div class="feature-icon-box"><i data-lucide="file-audio"></i></div>
+                <h2 style="font-size: 22px; font-weight: 800; margin: 0; color: var(--text-main);">Convert MP3 and Audio Files to Text</h2>
+            </div>
+            <p style="font-size: 16px; line-height: 1.7; opacity: 0.9; color: var(--text-main); margin-bottom: 1.5rem;">
+                You can easily convert MP3 audio files into text without installing any software. The tool works directly in your browser and processes files securely. It is suitable for:
+            </p>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px;">
+                <div style="display: flex; align-items: center; gap: 10px; background: var(--bg-secondary); padding: 12px; border-radius: 10px; border: 1px solid var(--card-border);">
+                    <i data-lucide="check-circle" style="color: var(--brand-accent); width: 18px;"></i>
+                    <span>Interviews and voice recordings</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 10px; background: var(--bg-secondary); padding: 12px; border-radius: 10px; border: 1px solid var(--card-border);">
+                    <i data-lucide="check-circle" style="color: var(--brand-accent); width: 18px;"></i>
+                    <span>Lectures and study material</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 10px; background: var(--bg-secondary); padding: 12px; border-radius: 10px; border: 1px solid var(--card-border);">
+                    <i data-lucide="check-circle" style="color: var(--brand-accent); width: 18px;"></i>
+                    <span>Meetings and discussions</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 10px; background: var(--bg-secondary); padding: 12px; border-radius: 10px; border: 1px solid var(--card-border);">
+                    <i data-lucide="check-circle" style="color: var(--brand-accent); width: 18px;"></i>
+                    <span>Podcasts and audio content</span>
+                </div>
+            </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; margin-top: 3rem;">
+            <div style="padding: 24px; background: var(--bg-secondary); border-radius: 16px; border: 1px solid var(--card-border); border-left: 5px solid var(--brand-accent);">
+                <h2 style="font-size: 20px; font-weight: 800; margin-bottom: 12px; color: var(--text-main);">🎤 Voice Recording Transcription</h2>
+                <p style="font-size: 14px; line-height: 1.6; opacity: 0.8; color: var(--text-main);">If you have a voice recording that needs to be converted into text, this tool provides a simple solution. It can transcribe spoken words into written format with good accuracy, helping you save time and effort.</p>
+            </div>
+            <div style="padding: 24px; background: var(--bg-secondary); border-radius: 16px; border: 1px solid var(--card-border); border-left: 5px solid var(--brand-accent);">
+                <h2 style="font-size: 20px; font-weight: 800; margin-bottom: 12px; color: var(--text-main);">⚡ Fast & No Login Required</h2>
+                <p style="font-size: 14px; line-height: 1.6; opacity: 0.8; color: var(--text-main);">The tool is designed to work instantly without requiring any registration. You can start using it right away without creating an account. Enjoy fast processing and a clean interface.</p>
+            </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; margin-top: 3rem;">
+            <div>
+                <h2 style="font-size: 22px; font-weight: 800; margin-bottom: 1.5rem; color: var(--text-main);">How to Convert Audio to Text</h2>
+                <div style="display: flex; flex-direction: column; gap: 12px; color: var(--text-main);">
+                    <div style="display: flex; align-items: center; gap: 12px;"><b style="color: var(--brand-accent);">01.</b> Upload your audio file (MP3, M4A, etc.)</div>
+                    <div style="display: flex; align-items: center; gap: 12px;"><b style="color: var(--brand-accent);">02.</b> Click on the convert or transcribe button</div>
+                    <div style="display: flex; align-items: center; gap: 12px;"><b style="color: var(--brand-accent);">03.</b> Wait a few seconds for processing</div>
+                    <div style="display: flex; align-items: center; gap: 12px;"><b style="color: var(--brand-accent);">04.</b> Copy or download the generated text</div>
+                </div>
+            </div>
+            <div>
+                <h2 style="font-size: 22px; font-weight: 800; margin-bottom: 1.5rem; color: var(--text-main);">Common Use Cases</h2>
+                <ul style="list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: 10px;">
+                    <li style="background: var(--bg-secondary); border: 1px solid var(--card-border); padding: 6px 16px; border-radius: 20px; font-size: 13px; color: var(--text-main); font-weight: 600;">Students (Lecture Notes)</li>
+                    <li style="background: var(--bg-secondary); border: 1px solid var(--card-border); padding: 6px 16px; border-radius: 20px; font-size: 13px; color: var(--text-main); font-weight: 600;">Journalists (Interviews)</li>
+                    <li style="background: var(--bg-secondary); border: 1px solid var(--card-border); padding: 6px 16px; border-radius: 20px; font-size: 13px; color: var(--text-main); font-weight: 600;">Creators (Subtitles)</li>
+                    <li style="background: var(--bg-secondary); border: 1px solid var(--card-border); padding: 6px 16px; border-radius: 20px; font-size: 13px; color: var(--text-main); font-weight: 600;">Businesses (Meetings)</li>
+                </ul>
+            </div>
+        </div>
+
+        <div style="margin-top: 4rem; padding: 24px; background: var(--bg-secondary); border-radius: 16px; border: 1px solid var(--card-border); border-left: 5px solid var(--brand-accent);">
+            <h2 style="font-size: 20px; font-weight: 800; margin-bottom: 0.5rem; color: var(--text-main); display: flex; align-items: center; gap: 10px;">
+                <i data-lucide="link" style="width: 20px; color: var(--brand-accent);"></i> Related Tools
+            </h2>
+            <p style="font-size: 14px; color: var(--text-main); opacity: 0.8; margin-bottom: 1.5rem;">If you work with different media types, try our other free professional tools:</p>
+            <div style="display: flex; flex-wrap: wrap; gap: 12px;">
+                <a href="/tools/audio-tools/text-to-speech" style="background: rgba(var(--accent-rgb), 0.1); color: var(--brand-accent); padding: 8px 16px; border-radius: 8px; font-weight: 700; text-decoration: none; font-size: 14px; display: flex; align-items: center; gap: 8px; border: 1px solid rgba(var(--accent-rgb), 0.2); transition: 0.3s;" onmouseover="this.style.background='var(--brand-accent)'; this.style.color='white';" onmouseout="this.style.background='rgba(var(--accent-rgb), 0.1)'; this.style.color='var(--brand-accent)';">
+                    <i data-lucide="languages" style="width:16px;"></i> Text to speech
+                </a>
+                <a href="/tools/audio-tools/audio-silence-remover" style="background: rgba(var(--accent-rgb), 0.1); color: var(--brand-accent); padding: 8px 16px; border-radius: 8px; font-weight: 700; text-decoration: none; font-size: 14px; display: flex; align-items: center; gap: 8px; border: 1px solid rgba(var(--accent-rgb), 0.2); transition: 0.3s;" onmouseover="this.style.background='var(--brand-accent)'; this.style.color='white';" onmouseout="this.style.background='rgba(var(--accent-rgb), 0.1)'; this.style.color='var(--brand-accent)';">
+                    <i data-lucide="volume-x" style="width:16px;"></i> Silence Remover
+                </a>
+            </div>
+        </div>
+
+        <div style="margin-top: 4rem; margin-bottom: 3rem;">
+            <h2 style="font-size: 24px; font-weight: 800; margin-bottom: 2rem; color: var(--text-main); text-align: center;">Frequently Asked Questions</h2>
+            <div style="display: grid; gap: 12px;">
+                <details style="background: var(--bg-secondary); padding: 18px; border-radius: 12px; border: 1px solid var(--card-border); cursor: pointer;">
+                    <summary style="font-weight: 700; color: var(--text-main);">Can I convert audio to text for free?</summary>
+                    <p style="margin-top:12px; color:var(--text-main); opacity:0.8; font-size: 14px; line-height: 1.6;">Yes, you can use this tool to convert audio files into text without any cost.</p>
+                </details>
+                <details style="background: var(--bg-secondary); padding: 18px; border-radius: 12px; border: 1px solid var(--card-border); cursor: pointer;">
+                    <summary style="font-weight: 700; color: var(--text-main);">Which audio formats are supported?</summary>
+                    <p style="margin-top:12px; color:var(--text-main); opacity:0.8; font-size: 14px; line-height: 1.6;">Common formats like MP3 and M4A are supported for seamless conversion.</p>
+                </details>
+                <details style="background: var(--bg-secondary); padding: 18px; border-radius: 12px; border: 1px solid var(--card-border); cursor: pointer;">
+                    <summary style="font-weight: 700; color: var(--text-main);">Do I need to create an account?</summary>
+                    <p style="margin-top:12px; color:var(--text-main); opacity:0.8; font-size: 14px; line-height: 1.6;">No, the tool works instantly without requiring any registration or login.</p>
+                </details>
+                <details style="background: var(--bg-secondary); padding: 18px; border-radius: 12px; border: 1px solid var(--card-border); cursor: pointer;">
+                    <summary style="font-weight: 700; color: var(--text-main);">Is the transcription accurate?</summary>
+                    <p style="margin-top:12px; color:var(--text-main); opacity:0.8; font-size: 14px; line-height: 1.6;">The accuracy depends on audio quality, but the tool is designed to provide reliable results for most audio files.</p>
+                </details>
+            </div>
+        </div>
+        
+        <div id="relatedBlogs"></div>
+    </main>
+
+    <footer></footer>
+
+    <script src="../../js/tools-data.js"></script>
+    <script src="../../js/blogs-data.js"></script>
+    <script src="../../js/script.js"></script>
+
+    <script>
+        lucide.createIcons();
+        const API_URL = "https://lio09450-speech-to-text-backend.hf.space/transcribe";
+        const API_KEY = "speech-to-text";
+
+        function updateFileName() {
+            const file = document.getElementById('audio-input').files[0];
+            if (file) {
+                // Check File Size (25MB Limit)
+                if (file.size > 25 * 1024 * 1024) {
+                    alert("File is too large! Maximum size allowed is 25MB.");
+                    document.getElementById('audio-input').value = "";
+                    return;
+                }
+                document.getElementById('file-name').innerText = file.name;
+                document.getElementById('file-name').style.color = "var(--brand-accent)";
+            }
+        }
+
+        function updateProgress(percent, text) {
+            document.getElementById('pb-fill').style.width = percent + "%";
+            document.getElementById('pb-text').innerText = text;
+        }
+
+        async function handleTranscription() {
+            const fileInput = document.getElementById('audio-input');
+            const lang = document.getElementById('lang-select').value;
+            const btn = document.getElementById('transcribe-btn');
+            const output = document.getElementById('stt-output');
+            
+            if (!fileInput.files[0]) { alert("Please select an audio file first."); return; }
+
+            btn.disabled = true;
+            document.getElementById('progress-container').style.display = 'block';
+            document.getElementById('result-actions').style.display = 'none';
+            output.value = "";
+
+            try {
+                updateProgress(20, "Uploading File...");
+                const formData = new FormData();
+                formData.append("file", fileInput.files[0]);
+
+                // Simulate progress for better UX
+                let step = 30;
+                const fakeProgress = setInterval(() => {
+                    if (step < 90) {
+                        step += 2;
+                        updateProgress(step, "AI Processing Audio...");
+                    }
+                }, 800);
+
+                const response = await fetch(`${API_URL}?lang_code=${lang}`, {
+                    method: "POST",
+                    headers: { "x-api-key": API_KEY },
+                    body: formData
+                });
+
+                clearInterval(fakeProgress);
+
+                if (!response.ok) throw new Error("Processing failed. Please try a smaller file.");
+
+                const data = await response.json();
+
+                if (data.status === "success") {
+                    updateProgress(100, "Success!");
+                    output.value = data.text;
+                    document.getElementById('lang-badge').innerText = `Detected: ${data.detected_language}`;
+                    document.getElementById('lang-badge').style.display = 'inline-block';
+                    document.getElementById('result-actions').style.display = 'flex';
+                }
+            } catch (err) {
+                alert("Error: " + err.message);
+                output.value = "An error occurred. Please refresh and try again.";
+            } finally {
+                btn.disabled = false;
+                setTimeout(() => { document.getElementById('progress-container').style.display = 'none'; }, 3000);
+            }
+        }
+
+        function copyText() {
+            navigator.clipboard.writeText(document.getElementById('stt-output').value);
+            alert("Copied to clipboard!");
+        }
+
+        function downloadText() {
+            const txt = document.getElementById('stt-output').value;
+            const blob = new Blob([txt], { type: 'text/plain' });
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = `text2tool-transcript-${Date.now()}.txt`;
+            a.click();
+        }
+    </script>
+</body>
+</html>

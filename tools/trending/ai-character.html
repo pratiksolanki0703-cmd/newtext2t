@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>create Free Custom AI Character Online – Chat Instantly Without Signup</title>
+    <meta name="description" content="Create your own AI character for free. Customize traits, backstory, and appearance. Chat instantly with your custom AI persona without any signup or login.">
+    
+    <link rel="stylesheet" href="../../style.css">
+    <link rel="stylesheet" href="../tool-style.css">
+    <script src="../../js/favicon.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root { --brand-orange: #ff8c00; --orange-light: rgba(255, 140, 0, 0.1); }
+        
+        /* TOOL CARD THEME ADAPTATION */
+        .ai-tool-card { 
+            background: var(--card-bg); 
+            border-radius: 1.5rem; 
+            border: 2px solid var(--brand-orange); 
+            padding: 0; 
+            box-shadow: 0 10px 30px rgba(255, 140, 0, 0.1); 
+            margin-top: 20px; 
+            max-width: 550px; 
+            margin-inline: auto;
+            height: 650px; 
+            display: flex; 
+            flex-direction: column; 
+            overflow: hidden;
+            position: relative;
+        }
+
+        .fs-toggle {
+            position: absolute; top: 15px; right: 15px; cursor: pointer; z-index: 100;
+            color: var(--brand-orange); background: var(--card-bg); padding: 5px;
+            border-radius: 8px; display: flex; align-items: center; border: 1px solid var(--border-color);
+        }
+
+        .ai-tool-card:fullscreen { max-width: 100%; height: 100vh; border-radius: 0; margin-top: 0; }
+
+        .input-label { font-size: 11px; font-weight: 800; color: var(--brand-orange); text-transform: uppercase; margin-bottom: 8px; display: block; text-align: left; letter-spacing: 1px; }
+        
+        .ai-view { display: flex; flex-direction: column; height: 100%; box-sizing: border-box; width: 100%; background: var(--card-bg); }
+
+        /* FIXED CHAT HEADER */
+        .chat-header {
+            padding: 10px 15px; background: var(--brand-orange); color: white; 
+            display: flex; align-items: center; gap: 10px; flex-shrink: 0; z-index: 10;
+        }
+        .chat-header img { width: 35px; height: 35px; border-radius: 50%; background: #fff; border: 1px solid #fff; }
+
+        .tool-input { 
+            width: 100%; padding: 12px; border-radius: 10px; 
+            border: 1.5px solid var(--border-color); background: var(--bg-color); 
+            color: var(--text-color); outline: none; box-sizing: border-box;
+        }
+
+        #chat-area { 
+            flex: 1; overflow-y: auto; padding: 15px; display: flex; flex-direction: column; gap: 10px;
+            background-image: url('https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png');
+            background-blend-mode: overlay; background-color: var(--bg-color);
+        }
+
+        .msg { padding: 10px 14px; border-radius: 12px; font-size: 14px; max-width: 80%; line-height: 1.4; }
+        .ai-msg { background: var(--card-bg); color: var(--text-color); align-self: flex-start; border-top-left-radius: 0; border: 1px solid var(--border-color); }
+        .user-msg { background: #dcf8c6; color: #000; align-self: flex-end; border-top-right-radius: 0; }
+
+        /* FIXED CHAT FOOTER */
+        .chat-footer { 
+            padding: 10px; background: var(--card-bg); border-top: 1px solid var(--border-color); 
+            display: flex; gap: 8px; align-items: center; flex-shrink: 0;
+        }
+        
+        .action-btns { display: flex; gap: 10px; margin-top: auto; padding: 1.5rem; width: 100%; box-sizing: border-box; }
+        .loader { width: 40px; height: 40px; border: 4px solid var(--border-color); border-top: 4px solid var(--brand-orange); border-radius: 50%; animation: spin 1s linear infinite; }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+
+        /* AD SLOT THEME */
+        .ad-container-inner { 
+            background: var(--bg-color); color: var(--text-muted); height: 50px; display: flex; 
+            align-items: center; justify-content: center; font-size: 10px; border-top: 1px solid var(--border-color); flex-shrink: 0;
+        }
+
+        /* SEO SECTION - DARK/LIGHT ADAPTIVE */
+        .seo-content-wrapper { max-width: 600px; margin: 40px auto; font-family: 'Inter', sans-serif; text-align: left; color: var(--text-color); }
+        .seo-section { margin-bottom: 30px; opacity: 0; transform: translateY(20px); transition: 0.6s all ease-out; }
+        .seo-section.visible { opacity: 1; transform: translateY(0); }
+        
+        .seo-h2 { color: var(--brand-orange); font-size: 22px; font-weight: 700; margin-bottom: 15px; border-bottom: 2px solid var(--orange-light); padding-bottom: 8px; }
+        
+        .step-card { display: flex; gap: 15px; background: var(--card-bg); padding: 15px; border-radius: 12px; margin-bottom: 12px; border: 1px solid var(--border-color); }
+        .step-num { background: var(--brand-orange); color: white; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; flex-shrink: 0; }
+        
+        .feature-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .feature-card { background: var(--orange-light); padding: 15px; border-radius: 12px; border: 1px solid var(--brand-orange); }
+        .feature-card h3 { font-size: 15px; color: var(--brand-orange); margin-bottom: 5px; }
+        .feature-card p { color: var(--text-color); font-size: 13px; margin:0; }
+        
+        .faq-item { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 10px; margin-bottom: 8px; overflow: hidden; }
+        .faq-btn { width: 100%; padding: 15px; text-align: left; background: none; border: none; font-weight: 700; cursor: pointer; display: flex; justify-content: space-between; color: var(--text-color); }
+        .faq-answer { max-height: 0; overflow: hidden; transition: 0.3s; padding: 0 15px; color: var(--text-muted); font-size: 14px; }
+        .faq-item.active .faq-answer { max-height: 200px; padding-bottom: 15px; }
+
+        @media (max-width: 600px) {
+            .ai-tool-card { height: 80vh; }
+            .ai-tool-card.keyboard-open { height: 45vh; }
+            .feature-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body class="color-trending">
+    <header></header>
+
+    <main class="tool-container">
+        <div style="text-align: center; margin-bottom: 2rem;">
+            <div class="upload-icon" style="background: var(--orange-light); color: var(--brand-orange);">
+                <i data-lucide="bot" style="width: 64px; height: 64px;"></i>
+            </div>
+            <h1 style="font-size: 2.2rem; font-weight: 700; margin-bottom: 1rem; color: var(--text-color);">Custom AI Character Chat</h1>
+            <p style="color: var(--text-muted); max-width: 600px; margin: 0 auto;">Build and chat with unique AI personas instantly. No login required.</p>
+        </div>
+
+        <div class="ai-tool-card" id="mainCard">
+            <div class="fs-toggle" onclick="toggleFullScreen()"><i data-lucide="maximize" id="fsIcon" style="width: 20px; height: 20px;"></i></div>
+
+            <div id="v-start" class="ai-view" style="justify-content: center; align-items: center; text-align: center; padding: 1.5rem;">
+                <i data-lucide="sparkles" style="width: 50px; color: var(--brand-orange); margin-bottom: 15px;"></i>
+                <h2 style="font-family: 'Outfit'; color: var(--text-color);">Ready to Roleplay?</h2>
+                <button class="tool-btn" onclick="showView('v-setup')" style="background: var(--brand-orange); color:white; margin-top: 20px;">Create Character</button>
+            </div>
+
+            <div id="v-setup" class="ai-view" style="display: none;">
+                <div style="flex: 1; overflow-y: auto; padding: 1.5rem;">
+                    <label class="input-label">Character Details</label>
+                    <input type="text" id="in-name" class="tool-input" placeholder="Name...">
+                    <select id="in-gender" class="tool-input" style="margin-top:10px;"><option value="Male">Male</option><option value="Female">Female</option></select>
+                    <textarea id="in-traits" class="tool-input" style="height: 70px; margin-top:10px;" placeholder="Traits..."></textarea>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px;">
+                        <button class="p-btn" onclick="setFast('Batman', 'Male', 'Stoic')">Batman</button>
+                        <button class="p-btn" onclick="setFast('Elena', 'Female', 'Kind')">Elena</button>
+                    </div>
+                </div>
+                <div class="action-btns">
+                    <button class="tool-btn" onclick="randomize()" style="background: var(--bg-color); color: var(--text-color); border: 1px solid var(--border-color); flex: 1;">Random 🎲</button>
+                    <button class="tool-btn" onclick="generateAI()" style="background: var(--brand-orange); color:white; flex: 2;">Generate ✨</button>
+                </div>
+            </div>
+
+            <div id="v-load" class="ai-view" style="display: none; justify-content: center; align-items: center;">
+                <div class="loader"></div>
+                <p style="margin-top: 15px; font-weight: 600; color: var(--text-color);">Summoning Persona...</p>
+            </div>
+
+            <div id="v-chat" class="ai-view" style="display: none; padding: 0;">
+                <div class="chat-header">
+                    <img id="chat-av" src="" alt="avatar">
+                    <div id="chat-title" style="font-weight: 700;">AI Chat</div>
+                </div>
+                <div id="chat-area"></div>
+                <div id="typing-status" style="display:none; font-size:10px; color:var(--brand-orange); padding: 5px 15px; background: var(--bg-color);">Typing...</div>
+                <div class="chat-footer">
+                    <input type="text" id="user-in" class="tool-input" placeholder="Say something..." style="margin:0; border-radius: 20px;" onkeypress="if(event.key==='Enter') sendMsg()">
+                    <button class="tool-btn" onclick="sendMsg()" style="background: var(--brand-orange); color:white; border-radius: 50%; width: 40px; height: 40px; padding: 0; flex-shrink: 0;">
+                        <i data-lucide="send" style="width: 18px;"></i>
+                    </button>
+                </div>
+                <div class="ad-container-inner">-- ADVERTISEMENT --</div>
+            </div>
+        </div>
+
+        <!-- SEO SECTION ADAPTIVE -->
+        <div class="seo-content-wrapper">
+            
+            <section class="seo-section">
+                <h2 class="seo-h2">How to Create Your Custom AI Character</h2>
+                <div class="step-card">
+                    <div class="step-num">1</div>
+                    <p><strong>Identity:</strong> Name your character and define their traits or personality.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-num">2</div>
+                    <p><strong>Generation:</strong> Click generate to create a unique AI avatar and persona.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-num">3</div>
+                    <p><strong>Chat:</strong> Start your roleplay instantly without any signup or data tracking.</p>
+                </div>
+            </section>
+
+            <section class="seo-section">
+                <h2 class="seo-h2">Why Use This AI Creator?</h2>
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <h3>No Signup</h3>
+                        <p>Total privacy. Chat without registration or sharing emails.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3>Unlimited Persona</h3>
+                        <p>Create AI Girlfriends, Mafia bosses, or Teachers effortlessly.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3>Mobile Friendly</h3>
+                        <p>Optimized interface that works smoothly on every device.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3>Session Based</h3>
+                        <p>Your chats stay in your browser session for maximum security.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="seo-section">
+                <h2 class="seo-h2">AI Relationship Creator</h2>
+                <div style="background: var(--brand-orange); padding: 1px; border-radius: 15px;">
+                    <div style="background: var(--card-bg); padding: 20px; border-radius: 14px;">
+                        <p>Create your custom <strong>AI Girlfriend</strong> or <strong>AI Boyfriend</strong>. Define their tone—whether sweet, dominant, or mysterious—and enjoy deep, interactive roleplay chats.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="seo-section">
+                <h2 class="seo-h2">Frequently Asked Questions</h2>
+                <div class="faq-item">
+                    <button class="faq-btn" onclick="toggleFaq(this)">Is this AI creator free? <span>+</span></button>
+                    <div class="faq-answer"><p>Yes, it is completely free to create and chat with your characters. There are no limits or subscriptions.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-btn" onclick="toggleFaq(this)">Is my chat private? <span>+</span></button>
+                    <div class="faq-answer"><p>Absolutely. We don't save chats or require signup, so your identity remains protected.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-btn" onclick="toggleFaq(this)">Can I use it on Android/iOS? <span>+</span></button>
+                    <div class="faq-answer"><p>Yes, our tool is built to be responsive and works perfectly on mobile browsers.</p></div>
+                </div>
+            </section>
+
+        </div>
+
+        <div style="text-align: center; margin-top: 2rem;"><a href="../../index" style="color: var(--brand-orange); font-weight: 700; text-decoration:none;"><i data-lucide="arrow-left" style="width: 16px;"></i> Back to Home</a></div>
+        <div id="relatedBlogs"></div>
+    </main>
+
+    <footer></footer>
+
+    <script src="../../js/tools-data.js"></script>
+    <script src="../../js/blogs-data.js"></script>
+    <script src="../../js/script.js"></script>
+
+    <script>
+        lucide.createIcons();
+        const TXT_API = "https://backend.buildpicoapps.com/aero/run/llm-api?pk=v1-Z0FBQUFBQnBwdXFLaC1KbUU1VmRpUVZmYUZqc1RuSXo1d2pjaEI2MDdXc2FDZHNhaWpmUmV1WUpqZ0xkYzlYb1FVekg1SC1JQ1ltYkxrczBlLWFBNDNpNWE1VVJTU1BTblE9PQ==";
+        const IMG_API = "https://backend.buildpicoapps.com/aero/run/image-generation-api?pk=v1-Z0FBQUFBQnBwdXFLaC1KbUU1VmRpUVZmYUZqc1RuSXo1d2pjaEI2MDdXc2FDZHNhaWpmUmV1WUpqZ0xkYzlYb1FVekg1SC1JQ1ltYkxrczBlLWFBNDNpNWE1VVJTU1BTblE9PQ==";
+        let charData = { name: "", traits: "", avatar: "" };
+
+        const mainCard = document.getElementById('mainCard');
+        const inputField = document.getElementById('user-in');
+        const chatArea = document.getElementById('chat-area');
+
+        inputField.addEventListener('focus', () => {
+            if(window.innerWidth < 600) {
+                mainCard.classList.add('keyboard-open');
+                setTimeout(() => { chatArea.scrollTop = chatArea.scrollHeight; }, 300);
+            }
+        });
+        inputField.addEventListener('blur', () => { mainCard.classList.remove('keyboard-open'); });
+
+        function toggleFullScreen() {
+            if (!document.fullscreenElement) mainCard.requestFullscreen();
+            else document.exitFullscreen();
+        }
+
+        function showView(id) {
+            document.querySelectorAll('.ai-view').forEach(v => v.style.display = 'none');
+            document.getElementById(id).style.display = 'flex';
+        }
+
+        function setFast(n, g, t) {
+            document.getElementById('in-name').value = n;
+            document.getElementById('in-gender').value = g;
+            document.getElementById('in-traits').value = t;
+        }
+
+        function randomize() {
+            const r = [{n:"Cyber Ninja", g:"Male", t:"Silent"}, {n:"Space Hero", g:"Female", t:"Brave"}][Math.floor(Math.random()*2)];
+            setFast(r.n, r.g, r.t);
+        }
+
+        async function generateAI() {
+            charData.name = document.getElementById('in-name').value || "AI Persona";
+            charData.traits = document.getElementById('in-traits').value || "Friendly";
+            showView('v-load');
+            try {
+                const res = await fetch(IMG_API, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({prompt: `Avatar of ${charData.name}`})
+                });
+                const d = await res.json();
+                charData.avatar = d.status === 'success' ? d.imageUrl : `https://ui-avatars.com/api/?name=${charData.name}`;
+            } catch(e) { charData.avatar = `https://ui-avatars.com/api/?name=${charData.name}`; }
+            document.getElementById('chat-av').src = charData.avatar;
+            document.getElementById('chat-title').innerText = charData.name;
+            showView('v-chat');
+            addMsg("ai", `Hello! I am ${charData.name}. Let's chat!`);
+        }
+
+        async function sendMsg() {
+            const val = inputField.value.trim();
+            if(!val) return;
+            addMsg("user", val);
+            inputField.value = "";
+            document.getElementById('typing-status').style.display = 'block';
+            try {
+                const res = await fetch(TXT_API, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({prompt: `You are ${charData.name}. Traits: ${charData.traits}. User: ${val}`})
+                });
+                const d = await res.json();
+                addMsg("ai", d.text);
+            } catch(e) { addMsg("ai", "Error..."); }
+            finally { document.getElementById('typing-status').style.display = 'none'; }
+        }
+
+        function addMsg(role, text) {
+            const div = document.createElement('div');
+            div.className = `msg ${role}-msg`;
+            div.innerText = text;
+            chatArea.appendChild(div);
+            chatArea.scrollTop = chatArea.scrollHeight;
+        }
+
+        function toggleFaq(btn) {
+            btn.parentElement.classList.toggle('active');
+        }
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('visible');
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.seo-section').forEach(section => observer.observe(section));
+
+        window.onload = () => { renderRelatedBlogs('ai-tools'); lucide.createIcons(); };
+    </script>
+</body>
+</html>

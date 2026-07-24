@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>AI Image to Text Converter - Extract Text from Photos | text2tool</title>
+    <meta name="description" content="Free online Image to Text converter. Extract text from JPG, PNG, or camera captures using AI OCR. Fast, secure, and 100% private browser-side processing.">
+    
+    <link rel="stylesheet" href="../../style.css">
+    <link rel="stylesheet" href="../tool-style.css">
+    <script src="../../js/favicon.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <style>
+        :root { --brand-blue: #3b82f6; --brand-blue-light: rgba(59, 130, 246, 0.05); }
+        
+        .shining-title { font-size: clamp(24px, 5vw, 36px); font-weight: 800; color: var(--brand-blue); text-transform: uppercase; animation: glow 3s infinite ease-in-out; display: inline-block; }
+        @keyframes glow { 0%, 100% { text-shadow: 0 0 5px rgba(59, 130, 246, 0.2); } 50% { text-shadow: 0 0 20px rgba(59, 130, 246, 0.4); } }
+        .shining-line { border: 0; height: 3px; background: linear-gradient(90deg, transparent, var(--brand-blue), transparent); width: 150px; margin: 20px auto; }
+        
+        /* Camera & Preview */
+        #cameraVideo { width: 100%; max-width: 500px; border-radius: 15px; border: 3px solid var(--brand-blue); display: none; margin: 0 auto 1.5rem; }
+        #imagePreview { max-width: 100%; border-radius: 15px; margin-bottom: 1.5rem; display: none; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        
+        /* Result Area */
+        #extractedText { width: 100%; min-height: 200px; padding: 20px; border-radius: 15px; border: 1px solid var(--card-border); background: var(--card-bg); color: var(--text-main); font-size: 1rem; margin-top: 1.5rem; resize: vertical; display: none; font-family: 'Inter', sans-serif; line-height: 1.6; }
+        
+        .action-flex { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
+        .btn-blue-outline { background: var(--brand-blue-light); border: 1px solid var(--brand-blue); color: var(--brand-blue); padding: 12px 20px; border-radius: 10px; cursor: pointer; font-weight: 700; transition: 0.3s; display: flex; align-items: center; gap: 8px; }
+        .btn-blue-outline:hover { background: var(--brand-blue); color: white; }
+
+        .section-divider { border-top: 1px solid rgba(59, 130, 246, 0.15); padding: 40px 0; margin-top: 40px; }
+        .info-flex-container { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 30px; text-align: left; }
+        .info-column { flex: 1; min-width: 250px; }
+        .info-column h3 { color: var(--brand-blue); margin-bottom: 15px; font-weight: 700; }
+
+        #progressBarContainer { width: 100%; background: #eee; height: 8px; border-radius: 4px; margin: 15px 0; display: none; overflow: hidden; }
+        #progressBar { height: 100%; background: var(--brand-blue); width: 0%; transition: 0.3s; }
+    </style>
+</head>
+<body class="color-image">
+    <header></header>
+
+    <main class="tool-container">
+        <div style="text-align: center; margin-bottom: 3rem;">
+            <div class="upload-icon">
+                <i data-lucide="scan-text" style="width: 64px; height: 64px; color: var(--brand-blue);"></i>
+            </div>
+            <h2 style="font-size: 26px; font-weight: 700; margin-top: 1rem;">
+                Advanced AI <span class="shining-title">Image to Text</span> Extract Instantly
+            </h2>
+            <p style="font-size: 18px; opacity: 0.8; font-weight: 500; margin-top: 15px;">
+                Convert photos into <span style="color: var(--brand-blue);">editable text</span> using High-Accuracy OCR.
+            </p>
+            <div class="shining-line"></div>
+        </div>
+        
+        <div class="upload-box" id="dropZone">
+            <div class="upload-icon"><i data-lucide="image-plus"></i></div>
+            <div class="upload-text">
+                <h3>Select Image or Capture</h3>
+                <p>JPG, PNG, WebP or Use Live Camera</p>
+            </div>
+            <input type="file" id="fileInput" accept="image/*" style="position: absolute; inset: 0; opacity: 0; cursor: pointer;">
+        </div>
+
+        <div id="editorArea" style="margin-top: 2rem; text-align: center;">
+            <video id="cameraVideo" autoplay playsinline></video>
+            <img id="imagePreview">
+            
+            <div id="progressBarContainer"><div id="progressBar"></div></div>
+
+            <div class="action-flex">
+                <button class="btn-blue-outline" id="openCameraBtn"><i data-lucide="camera"></i> Open Camera</button>
+                <button class="btn-blue-outline" id="captureBtn" style="display: none; background: #f59e0b; color: white; border: none;">Capture Photo</button>
+                <button class="btn-blue-outline" onclick="location.reload()"><i data-lucide="refresh-cw"></i> Reset</button>
+            </div>
+
+            <textarea id="extractedText" placeholder="Extracting text..."></textarea>
+            <button id="copyBtn" style="display:none; width: 100%; background: var(--brand-blue); color: white; padding: 1.2rem; border: none; border-radius: 12px; font-weight: 700; cursor: pointer; margin-top: 1rem;">
+                <i class="fas fa-copy"></i> Copy Extracted Text
+            </button>
+        </div>
+
+        <div style="text-align: center; margin-top: 2rem;">
+            <a href="../../index" style="display: inline-flex; align-items: center; gap: 0.5rem; color: var(--brand-blue); font-weight: 700;">
+                <i data-lucide="arrow-left" style="width: 16px; height: 16px;"></i> Back to Home
+            </a>
+        </div>
+
+        <div style="width: 100%; margin: 60px auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 30px; text-align: center;">
+            <div><div style="font-size: 35px; color: var(--brand-blue); margin-bottom: 10px;">⚡</div><h3>AI Speed</h3><p style="opacity: 0.8; font-size: 14px;">Instant text recognition.</p></div>
+            <div><div style="font-size: 35px; color: var(--brand-blue); margin-bottom: 10px;">🛡️</div><h3>Privacy</h3><p style="opacity: 0.8; font-size: 14px;">Zero data storage.</p></div>
+            <div><div style="font-size: 35px; color: var(--brand-blue); margin-bottom: 10px;">🔍</div><h3>High-Res</h3><p style="opacity: 0.8; font-size: 14px;">Accuracy for small fonts.</p></div>
+            <div><div style="font-size: 35px; color: var(--brand-blue); margin-bottom: 10px;">🌐</div><h3>Global</h3><p style="opacity: 0.8; font-size: 14px;">Multi-language support.</p></div>
+        </div>
+
+        <div class="section-divider">
+            <h2 style="font-size: 28px; font-weight: 700; margin-bottom: 20px;">Image to Text Converter – AI Powered OCR</h2>
+            <p style="font-size: 18px; line-height: 1.7; opacity: 0.8;">Turn images into editable documents with our **AI OCR tool**. No more manual typing; just upload a picture, and our engine will extract the text for you. Perfect for receipts, books, and handwritten notes.</p>
+        </div>
+
+        <div class="section-divider">
+            <div class="info-flex-container">
+                <div class="info-column"><h3>What is OCR?</h3><p>Optical Character Recognition (OCR) is a technology that recognizes text within a digital image and converts it into machine-readable data.</p></div>
+                <div class="info-column"><h3>Why text2tool?</h3><p>Our tool uses Engine 2 AI for superior accuracy, ensuring that even complex symbols and numbers are extracted correctly.</p></div>
+                <div class="info-column"><h3>Private Capture</h3><p>Use your camera directly on our platform. The captured data is processed and discarded instantly for your safety.</p></div>
+            </div>
+        </div>
+
+        <section class="faq-section">
+            <h2 class="section-title">Frequently Asked Questions</h2>
+            <div class="faq-item">
+                <button class="faq-question">Is this OCR tool free? <i data-lucide="chevron-down" class="faq-icon"></i></button>
+                <div class="faq-answer">Yes, text2tool offers unlimited image-to-text conversions for free.</div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question">Does it support handwriting? <i data-lucide="chevron-down" class="faq-icon"></i></button>
+                <div class="faq-answer">It works best with printed text, but it can also recognize clear handwriting.</div>
+            </div>
+        </section>
+        <div id="relatedBlogs"></div>
+
+    </main>
+
+    <footer></footer>
+     <script src="../../js/tools-data.js"></script>
+     <script src="../../js/blogs-data.js"></script>
+    <script src="../../js/script.js"></script>
+    <script>
+        const API_KEY = 'K85543032788957'; 
+        const fileInput = document.getElementById('fileInput');
+        const cameraVideo = document.getElementById('cameraVideo');
+        const captureBtn = document.getElementById('captureBtn');
+        const extractedText = document.getElementById('extractedText');
+        const progressBar = document.getElementById('progressBar');
+        const progressBarContainer = document.getElementById('progressBarContainer');
+        const copyBtn = document.getElementById('copyBtn');
+        let currentStream;
+
+        fileInput.onchange = (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+            processOCR(file);
+        };
+
+        document.getElementById('openCameraBtn').onclick = async () => {
+            try {
+                currentStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
+                cameraVideo.srcObject = currentStream;
+                cameraVideo.style.display = 'block';
+                captureBtn.style.display = 'inline-flex';
+                document.getElementById('dropZone').style.display = 'none';
+            } catch (err) { alert("Camera access denied."); }
+        };
+
+        captureBtn.onclick = () => {
+            const canvas = document.createElement('canvas');
+            canvas.width = cameraVideo.videoWidth;
+            canvas.height = cameraVideo.videoHeight;
+            canvas.getContext('2d').drawImage(cameraVideo, 0, 0);
+            canvas.toBlob(blob => {
+                processOCR(blob);
+                currentStream.getTracks().forEach(t => t.stop());
+                cameraVideo.style.display = 'none';
+                captureBtn.style.display = 'none';
+            }, 'image/jpeg');
+        };
+
+        async function processOCR(blob) {
+            const preview = document.getElementById('imagePreview');
+            preview.src = URL.createObjectURL(blob);
+            preview.style.display = 'block';
+            document.getElementById('dropZone').style.display = 'none';
+            progressBarContainer.style.display = 'block';
+            progressBar.style.width = '40%';
+            
+            const formData = new FormData();
+            formData.append('apikey', API_KEY);
+            formData.append('file', blob);
+            formData.append('OCREngine', '2');
+
+            try {
+                const res = await fetch('https://api.ocr.space/parse/image', { method: 'POST', body: formData });
+                const data = await res.json();
+                progressBar.style.width = '100%';
+                
+                if (data.ParsedResults && data.ParsedResults.length > 0) {
+                    extractedText.value = data.ParsedResults[0].ParsedText;
+                    extractedText.style.display = 'block';
+                    copyBtn.style.display = 'block';
+                } else { alert("No text detected."); }
+            } catch (err) { alert("OCR Failed. Please try again."); }
+            finally { setTimeout(() => progressBarContainer.style.display = 'none', 1000); }
+        }
+
+        copyBtn.onclick = () => {
+            extractedText.select();
+            navigator.clipboard.writeText(extractedText.value);
+            copyBtn.innerText = "✅ Text Copied!";
+            setTimeout(() => copyBtn.innerText = "Copy Extracted Text", 2000);
+        };
+
+        window.onload = () => { if(window.lucide) lucide.createIcons(); };
+    </script>
+</body>
+</html>

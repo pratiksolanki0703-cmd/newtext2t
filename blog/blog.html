@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog - Text2Tool</title>
+    <link rel="stylesheet" href="../style.css">
+    <script src="../js/favicon.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header></header>
+
+    <main class="container" style="padding-top: 3rem;">
+        <div style="text-align: center; margin-bottom: 4rem;">
+            <h1 style="font-size: 3rem; margin-bottom: 1rem;">Latest <span style="color: var(--brand-primary);">Insights</span></h1>
+            <p style="color: var(--text-muted); max-width: 600px; margin: 0 auto;">Explore our guides and articles to help you make the most of our utility tools.</p>
+        </div>
+
+        <div id="blogList" style="display: flex; flex-direction: column; gap: 1rem; max-width: 800px; margin: 0 auto;">
+            <!-- Blogs load here -->
+        </div>
+
+        <div id="pagination" style="display: flex; justify-content: center; gap: 1rem; margin-top: 4rem; margin-bottom: 4rem;">
+            <!-- Pagination buttons load here -->
+        </div>
+    </main>
+
+    <footer></footer>
+
+    <script src="../js/tools-data.js"></script>
+    <script src="../js/blogs-data.js"></script>
+    <script src="../js/script.js"></script>
+    <script>
+        const BLOGS_PER_PAGE = 10;
+        const blogList = document.getElementById('blogList');
+        const pagination = document.getElementById('pagination');
+
+        function renderBlogs(page = 1) {
+            if (!blogList || typeof BLOGS === 'undefined') return;
+
+            // Sort blogs by date (latest first)
+            const sortedBlogs = [...BLOGS].sort((a, b) => new Date(b.date) - new Date(a.date));
+
+            const start = (page - 1) * BLOGS_PER_PAGE;
+            const end = start + BLOGS_PER_PAGE;
+            const paginatedBlogs = sortedBlogs.slice(start, end);
+
+            blogList.innerHTML = paginatedBlogs.map(post => `
+                <a href="../${post.path}" class="glass-card blog-card-horizontal group">
+                    <img src="${post.image}" alt="${post.title}" class="blog-img-horizontal">
+                    <div class="blog-content">
+                        <div class="blog-meta">${post.date} • By ${post.author}</div>
+                        <h3 class="card-title" style="font-size: 1.25rem; margin-bottom: 0.75rem;">${post.title}</h3>
+                        <p class="card-desc">${post.description}</p>
+                    </div>
+                </a>
+            `).join('');
+
+            renderPagination(page, Math.ceil(sortedBlogs.length / BLOGS_PER_PAGE));
+            if (window.lucide) lucide.createIcons();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function renderPagination(currentPage, totalPages) {
+            if (!pagination || totalPages <= 1) {
+                pagination.innerHTML = '';
+                return;
+            }
+
+            let html = '';
+            for (let i = 1; i <= totalPages; i++) {
+                html += `
+                    <button onclick="renderBlogs(${i})" class="icon-btn ${i === currentPage ? 'active' : ''}" 
+                            style="width: 40px; height: 40px; border-radius: 8px; ${i === currentPage ? 'background: var(--brand-primary); color: white;' : ''}">
+                        ${i}
+                    </button>
+                `;
+            }
+            pagination.innerHTML = html;
+        }
+
+        renderBlogs(1);
+    </script>
+</body>
+</html>
